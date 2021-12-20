@@ -1,0 +1,8 @@
+#command
+i back-line
+k forw-line
+^i back-scroll
+^k forw-scroll
+#line-edit
+#env
+# LESS = -i

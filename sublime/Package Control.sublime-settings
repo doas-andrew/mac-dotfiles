@@ -1,0 +1,18 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"A File Icon",
+		"Emmet",
+		"gruvbox",
+		"Nix",
+		"Package Control",
+		"Pretty JSON",
+		"Smart Backspace",
+		"SublimeLinter",
+		"VimL"
+	]
+}

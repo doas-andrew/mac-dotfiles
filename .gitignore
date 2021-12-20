@@ -1,0 +1,8 @@
+# MacOS Desktop Services Store files
+.DS_Store
+
+# Backup files created by Emacs
+*\~
+
+# Other repos
+/zsh/powerlevel10k/
