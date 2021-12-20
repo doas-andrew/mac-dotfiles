@@ -1,0 +1,27 @@
+## Generate a keypair:
+# ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/path/to/key -C "Add a comment. Eg: name@mac"
+
+## Use multiple identities for one host:
+# git clone git@github.com:user_name/repo_name.git
+# git clone git@github-alternate:user_name/repo_name.git
+
+Host github.com
+    User git
+    Hostname github.com
+    PreferredAuthentications publickey
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/path/to/key
+
+Host github-alternate
+    User git
+    Hostname github.com
+    PreferredAuthentications publickey
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/path/to/key
+
+Host bitbucket.org
+    User git
+    Hostname bitbucket.org
+    PreferredAuthentications publickey
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/path/to/key
