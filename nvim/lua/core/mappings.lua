@@ -19,7 +19,7 @@ as.map("n", ";", ":", { silent = false })
 as.map("n", "<C-w>", "ZQ")
 as.map("n", "<M-w>", "ZQ")
 as.map("n", "s", "<Plug>(easymotion-bd-w)")
-as.map("", "<M-/>", ":Comment<CR>j")
+as.map("", "<M-/>", ":Comment<CR><Down>")
 
 -- Navigation
 as.map("", "j", "h")
