@@ -1,3 +1,32 @@
+background_opacity: 1.00
+
+colors:
+  primary:
+    background: '#282828'
+    foreground: '#ebdbb2'
+
+cursor:
+  thickness: 0.20
+  unfocused_hollow: true
+  #blinking: Always
+  #blink_interval: 750
+
+font:
+  size: 14.0
+  normal:
+    family: MesloLGS Nerd Font Mono
+
+# tmux already handles this (?)
+#selection:
+  #save_to_clipboard: true
+
+shell:
+  program: zsh
+  args:
+    - -l
+    - -c
+    - "tmux attach || tmux"
+
 window:
   dimensions:
     columns: 160
@@ -8,68 +37,19 @@ window:
     y: 0
 
   # Startup Mode (changes require restart)
-  #
-  # Values for `startup_mode`:
-  #   - Windowed
-  #   - Maximized
-  #   - Fullscreen
-  #
-  # Values for `startup_mode` (macOS only):
-  #   - SimpleFullscreen
-  startup_mode: Maximized
+  # Windowed, Maximized, Fullscreen, SimpleFullscreen (macOS only)
+  #  startup_mode: Maximized
 
-font:
-  size: 14.0
-  normal:
-    family: MesloLGS Nerd Font Mono
-
-colors:
-  # Default colors
-  primary:
-    background: '#282828'
-    foreground: '#ebdbb2'
-
-  search:
-    matches:
-      foreground: '#000000'
-      background: '#ffffff'
-
-    # focused_match:
-    #  foreground: '#ffffff'
-    #  background: '#000000'
-
-    bar:
-      background: '#ffffff' # '#c5c8c6'
-      foreground: '#000000' # '#1d1f21'
-
-background_opacity: 1.00
-
-selection:
-  save_to_clipboard: true
-
-cursor:
-  # Beam |  Block ▇  Underline _
-  style: Block
-  # thickness: 0.15
-  unfocused_hollow: false
-  # blinking: Always
-  # blink_interval: 750
-
-shell:
-  # program: tmux
-  program: zsh
-  args:
-    - -l
-    - -c
-    - "tmux attach || tmux"
-
+# Alacritty > tmux > zsh/nvim
+# Keybinds caught by Alacritty aren't sent to tmux and so on (unless explicitly done)
+# IE <C-0> can't be bound in neovim because it's set as "ResetFontSize" here
 key_bindings:
   - { key: Equals, mods: Control, action: IncreaseFontSize }
   - { key: Minus,  mods: Control, action: DecreaseFontSize }
   - { key: Key0,   mods: Control, action: ResetFontSize    }
   - { key: F11,    mods: None,    action: ToggleFullscreen }
 
-    ## Map Command key to Alt
+    # Map Mac's COMMAND key to ALT
   - { key: Back,    mods: Command, chars: "\x1b\x7f" }
   - { key: Comma,   mods: Command, chars: "\x1b,"    }
   - { key: Key1,    mods: Command, chars: "\x1b1"    }
@@ -111,7 +91,6 @@ key_bindings:
   - { key: Y,    mods: Command, chars: "\x1by" }
   - { key: Z,    mods: Command, chars: "\x1bz" }
 
-    ## Command + Shift sends Alt + Shift
   - { key: A,    mods: Command | Shift, chars: "\x1bA" }
   - { key: B,    mods: Command | Shift, chars: "\x1bB" }
   - { key: C,    mods: Command | Shift, chars: "\x1bC" }
@@ -138,4 +117,3 @@ key_bindings:
   - { key: X,    mods: Command | Shift, chars: "\x1bX" }
   - { key: Y,    mods: Command | Shift, chars: "\x1bY" }
   - { key: Z,    mods: Command | Shift, chars: "\x1bZ" }
-
