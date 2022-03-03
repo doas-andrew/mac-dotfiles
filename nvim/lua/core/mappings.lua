@@ -15,49 +15,56 @@ vim.g.mapleader = " "
 -- Basics
 ----------------------------------------------------------------------
 as.map("i", "jk", "<ESC>")
-as.map("n", ";", ":", { silent = false })
 as.map("n", "<C-w>", "ZQ")
 as.map("n", "<M-w>", "ZQ")
 as.map("n", "s", "<Plug>(easymotion-bd-w)")
-as.map("", "<M-/>", ":Comment<CR><Down>")
+as.map("n", ";", ":", { silent = false })
+as.map("v", ";", ":", { silent = false })
+
+-- Comments
+as.map("n", "<M-/>", ":Comment<CR><Down>")
+as.map("i", "<M-/>", ":Comment<CR>")
+as.map("v", "<M-/>", ":Comment<CR>")
 
 -- Navigation
 as.map("", "j", "h")
 as.map("", "h", "i")
--- Remap for dealing with word wrap in Normal mode
-as.map("", "k", 'v:count == 0 ? "gj" : "j"', { expr = true })
+-- Navigate word wrapped lines as separate lines
 as.map("", "i", 'v:count == 0 ? "gk" : "k"', { expr = true })
+as.map("", "k", 'v:count == 0 ? "gj" : "j"', { expr = true })
+as.map("x", "i", '(v:count == 0 && mode() !=# "V") ? "gk" : "k"', { expr = true })
+as.map("x", "k", '(v:count == 0 && mode() !=# "V") ? "gj" : "j"', { expr = true })
 
 as.map("n", "<C-i>", "<C-u>")
 as.map("n", "<C-k>", "<C-d>")
 as.map("n", "<C-j>", "gT")
 as.map("n", "<C-l>", "gt")
 
-as.map("i", "<C-i>", "<Up>")
-as.map("i", "<C-k>", "<Down>")
-as.map("i", "<C-j>", "<Left>")
-as.map("i", "<C-l>", "<Right>")
+as.map("i", "<M-j>", "<Left>")
+as.map("i", "<M-l>", "<Right>")
+as.map("i", "<M-i>", "<Up>")
+as.map("i", "<M-k>", "<Down>")
+
+as.map("n", "<M-r>", "<C-r>")
 
 -- <C-h> == <C-BS>
 as.map("i", "<C-h>", "<C-u>")
 as.map("i", "<M-BS>", "<C-w>")
 as.map("i", "<C-SPC>", "SPC")
 
--- as.map("n", "Y", "y$")
--- as.map("v", "Y", "<ESC>y$gv")
+-- Yank to the end of the line
+as.map("n", "Y", "y$")
+as.map("v", "Y", "<ESC>y$gv")
+
 -- as.map("n", "Q", "<Nop>")
 -- as.map("n", "<BS>", "<C-^>")
 -- as.map("t", "<C-o>", [[<C-\><C-n>]])
 
-
 -- Move selected line / block of text in visual mode
--- as.map("x", "K", ":move '<-2<CR>gv=gv")
--- as.map("x", "J", ":move '>+1<CR>gv=gv")
-
+as.map("x", "I", ":move '<-2<CR>gv=gv")
+as.map("x", "K", ":move '>+1<CR>gv=gv")
 
 -- same for visual mode
--- as.map("x", "k", '(v:count == 0 && mode() !=# "V") ? "gk" : "k"', { expr = true })
--- as.map("x", "j", '(v:count == 0 && mode() !=# "V") ? "gj" : "j"', { expr = true })
 
 -- Automatically jump to the end of pasted text
 -- as.map("v", "y", "y`]")
@@ -135,10 +142,10 @@ as.map("v", "<S-Tab>", "<gv")
 ----------------------------------------------------------------------
 -- windows
 ----------------------------------------------------------------------
-as.map("", "<M-i>", ":TmuxNavigateUp<CR>")
-as.map("", "<M-k>", ":TmuxNavigateDown<CR>")
-as.map("", "<M-j>", ":TmuxNavigateLeft<CR>")
-as.map("", "<M-l>", ":TmuxNavigateRight<CR>")
+as.map("n", "<M-i>", ":TmuxNavigateUp<CR>")
+as.map("n", "<M-k>", ":TmuxNavigateDown<CR>")
+as.map("n", "<M-j>", ":TmuxNavigateLeft<CR>")
+as.map("n", "<M-l>", ":TmuxNavigateRight<CR>")
 -- as.map("n", "<C-h>", "<C-w>h")
 -- as.map("n", "<C-j>", "<C-w>j")
 -- as.map("n", "<C-k>", "<C-w>k")

@@ -1,3 +1,7 @@
 return { config = function()
-    require("commented").setup()  
+    require("commented").setup({
+        opts = {
+            comment_padding = ""
+        }
+    })
 end}

@@ -2,7 +2,7 @@
 # Variables
 
 export MY_ZSH_DIR="$HOME/dotfiles/zsh"
-
+export HISTSIZE=10000
 
 # ----------------------------------------------------------------------
 # Power Level 10k and other plugins
@@ -37,14 +37,20 @@ alias gbr='git branch'
 alias gca='git commit -a'
 alias gcam='git commit -am'
 alias gcl='git clone'
+alias gcm='git commit'
 alias gco='git checkout'
+alias gpf='git push --force-with-lease'
+alias gpl='git pull'
+alias gsh='git stash'
 alias gst='git status'
-alias gsta='git stash'
-alias gtl='git log --decorate --graph' # --all
+alias gtl='git log --decorate --graph'
+alias gtlo='git log --decorate --oneline'
 
 # Other
+alias bs='brew services'
 alias ls='ls -A'
 alias rgf='rg --files | rg'
+alias rials='rails'
 
 
 # ----------------------------------------------------------------------
@@ -82,10 +88,24 @@ function __erase_history {
     zle reset-prompt
 }
 
-function test_fn {
-    # For testing shell script snippets 
-    # echo "${WORDCHARS:s#/#}"
-    echo "test function"
+function __exit {
+    exit
+}
+
+function gqc {
+    # "git quick commit"
+    $project_root=git rev-parse --show-toplevel 1>/dev/null || return
+    git add $project_root
+    git commit -am 'squash me (gqc)'
+    git push
+}
+
+function foo {
+    RAILSENV='review'
+    DB_ONE='SET!'
+    DB_TWO='SET!'
+
+    if [ "$RAILSENV" = 'review' ] && { [ -z "$DB_ONE" ] || [ -z "$DB_TWO" ]; } then echo 'TRUTHY'; fi; echo 'AFTER';
 }
 
 
@@ -96,11 +116,13 @@ function test_fn {
 zle -N __custom_backward_kill_word 
 bindkey '^[^?' __custom_backward_kill_word
 
+# Alt-w
+zle -N __exit
+bindkey '^[w' __exit
+
 # Ctrl-back
 bindkey '^H' backward-kill-line
 
-# zle -N erase_history
 zle -N __erase_history
 bindkey '^K' __erase_history
-
 

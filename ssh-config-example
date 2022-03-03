@@ -1,6 +1,15 @@
+# ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/path/to/key -C "Comment. IE: name@mac"
+
 Host github.com
         User git
         Hostname github.com
+        PreferredAuthentications publickey
+        IdentitiesOnly yes
+        IdentityFile ~/.ssh/path/to/key
+
+Host github.com
+        User git
+        Hostname github.com-alternate
         PreferredAuthentications publickey
         IdentitiesOnly yes
         IdentityFile ~/.ssh/path/to/key

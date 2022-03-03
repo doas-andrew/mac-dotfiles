@@ -22,8 +22,8 @@ if which zsh; then
 fi
 
 if which less; then
-    ln -sfn ~/dotfiles/less ~/.config/less
-    lesskey ~/.config/less/lesskey
+    ln -sfn ~/dotfiles/less/lesskey ~/.lesskey
+    # lesskey ~/.config/less/lesskey
 fi
 
 if which emacs; then

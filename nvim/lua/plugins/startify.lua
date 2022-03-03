@@ -6,12 +6,13 @@ return { config = function()
         { type = "bookmarks", header = { "   Bookmarks"    } },
     }
     vim.g.startify_bookmarks = {
-        { al = "~/.config/alacritty/alacritty.yml"    },
-        { tm = "~/.config/tmux/tmux.conf"             },
-        { ni = "~/.config/nvim/init.lua"              },
-        { nc = "~/.config/nvim/lua/core/config.lua"   },
-        { np = "~/.config/nvim/lua/plugins/init.lua"  },
-        { nm = "~/.config/nvim/lua/core/mappings.lua" },
+        { al  = "~/.config/alacritty/alacritty.yml"    },
+        { tm  = "~/.config/tmux/tmux.conf"             },
+        { zsh = "~/.zshrc"                             },
+        { ni  = "~/.config/nvim/init.lua"              },
+        { nc  = "~/.config/nvim/lua/core/config.lua"   },
+        { np  = "~/.config/nvim/lua/plugins/init.lua"  },
+        { nm  = "~/.config/nvim/lua/core/mappings.lua" },
     }
     vim.g.startify_commands = {
         { "Find files",      ":Telescope fd"        },

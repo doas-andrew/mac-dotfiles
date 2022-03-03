@@ -1,5 +1,3 @@
-background_opacity: 1.00
-
 colors:
   primary:
     background: '#282828'
@@ -28,26 +26,27 @@ shell:
     - "tmux attach || tmux"
 
 window:
-  dimensions:
-    columns: 160
-    lines: 40
+  opacity: 1.0
+  #  dimensions:
+    #  columns: 160
+    #  lines: 40
 
-  position:
-    x: 0
-    y: 0
+  #  position:
+    #  x: 0
+    #  y: 0
 
   # Startup Mode (changes require restart)
   # Windowed, Maximized, Fullscreen, SimpleFullscreen (macOS only)
-  #  startup_mode: Maximized
+  startup_mode: Maximized
 
 # Alacritty > tmux > zsh/nvim
 # Keybinds caught by Alacritty aren't sent to tmux and so on (unless explicitly done)
 # IE <C-0> can't be bound in neovim because it's set as "ResetFontSize" here
 key_bindings:
-  - { key: Equals, mods: Control, action: IncreaseFontSize }
-  - { key: Minus,  mods: Control, action: DecreaseFontSize }
-  - { key: Key0,   mods: Control, action: ResetFontSize    }
-  - { key: F11,    mods: None,    action: ToggleFullscreen }
+  - { key: Equals,   mods: Control, action: IncreaseFontSize }
+  - { key: Minus,    mods: Control, action: DecreaseFontSize }
+  - { key: Key0,     mods: Control, action: ResetFontSize    }
+  - { key: F11,      mods: None,    action: ToggleFullscreen }
 
     # Map Mac's COMMAND key to ALT
   - { key: Back,    mods: Command, chars: "\x1b\x7f" }
