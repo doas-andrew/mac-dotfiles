@@ -1,0 +1,107 @@
+# ------------------------------------------------------------------------------
+## Sources
+
+source "$MY_ZSH_DIR/my-p10k.zsh"
+source "$MY_ZSH_DIR/docker.zsh"
+source "$MY_ZSH_DIR/ffmpeg.zsh"
+source "$MY_ZSH_DIR/git.zsh"
+source "$MY_ZSH_DIR/nixos.zsh"
+source "$MY_ZSH_DIR/widgets.zsh"
+
+
+# ------------------------------------------------------------------------------
+## Aliases
+
+alias be='bundle exec'
+alias ge='$(go env GOPATH)'
+alias emacs='emacs --no-window-system'
+alias fdir='fd -t=d'
+alias l='eza -alh'
+alias ls='eza -a'
+alias lf='lfub'
+# alias man='batman'
+alias pip='pipenv'
+alias rgf='rg --files | rg'
+alias rials='rails'
+#  alias sudo='doas'
+
+alias ed='nvim'
+alias ex='nvim'
+alias vi='nvim'
+alias vim='nvim'
+alias sudovim='sudo -E -s nvim'
+
+
+# ------------------------------------------------------------------------------
+## Functions
+
+function clamscan_default {
+    mkdir -p $HOME/clam_reports
+    sudo freshclam
+    local dir="${1:=/home}"
+    local file="$HOME/clam_reports/clamscan_$(date +%Y%m%d%H%M%S).txt"
+    touch $file
+    echo "Scanning $dir\n" >> $file
+    sudo clamscan $dir \
+        --recursive=yes \
+        --log=$file \
+        --infected \
+        --exclude-dir='.npm' \
+        --exclude-dir='.pnpm' \
+        --exclude-dir='.local/share/Steam'
+    bat $file
+}
+
+function clear_clipboard_history {
+    type clipcatctl >/dev/null && clipcatctl clear
+    type greenclip >/dev/null && pkill greenclip && greenclip clear && greenclip daemon &
+}
+
+function xkeyboard_setup {
+    setxkbmap -option caps:swapescape
+    xset r rate 160 60
+}
+
+
+# ------------------------------------------------------------------------------
+## Keybinds
+## https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html
+## List keymaps: bindkey -l
+## List keybinds: bindkey -M vicmd
+
+bindkey '^[w'   __my_exit_shell
+bindkey '^[^?'  backward-delete-word # Alt-BS
+bindkey '^[I'   history-search-backward
+bindkey '^[K'   history-search-forward
+bindkey '^[J'   backward-word
+bindkey '^[L'   forward-word
+
+bindkey '^K'   __my_clear_history
+bindkey '^K'   __my_clear_history
+bindkey '^W'   __my_exit_shell
+bindkey '^\b'  backward-kill-line
+
+bindkey '^[^J' beginning-of-line
+bindkey '^[^L' end-of-line
+
+## Vi Mode
+bindkey '\e' __noop
+bindkey '^[h' vi-cmd-mode
+bindkey -a h vi-insert
+bindkey -a '\e' vi-insert
+bindkey -a i up-line-or-history
+bindkey -a k down-line-or-history
+bindkey -a j vi-backward-char
+bindkey -a l vi-forward-char
+
+
+# ------------------------------------------------------------------------------
+## Macros, etc
+
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+
+# eval "$(direnv hook zsh)"
+# typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+eval "$(mise activate zsh)"

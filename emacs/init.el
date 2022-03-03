@@ -1,67 +1,87 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; CONTENTS
 
-;;; 1 - IMPORTS
-;;; 2 - PACKAGES
-;;; 3 - EMACS DEFAULTS
-;;; 4 - GLOBAL KEYS
-;;; 5 - CENTAUR TABS
-;;; 6 - DIRED, HELM, IVY
-;;; 7 - EVIL
-;;; 8 - FLYCHECK, FLYMAKE
-;;; 9 - INDENTATION
+;;; 1 - Imports
+;;; 2 - Packages
+;;; 3 - Defaults
+;;; 4 - Keybinds
+;;; 5 - Buffers & Tabs
+;;; 6 - Telescope
+;;; 7 - Indentation
+;;; 8 - LSP
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; 1 - IMPORTS
+;;; 1 - Imports
 
-(load "~/dotfiles/emacs/house-keeping.el")
-
+(load "~/dotfiles/emacs/startup.el")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; 2 - PACKAGES
+;;; 2 - Packages
 
-(use-package ace-jump-mode)    ;;; Fast and precise keyboard navigation
-(use-package better-jumper     :init (better-jumper-mode 1))
-(use-package centaur-tabs      :init (centaur-tabs-mode 1))     ;;; Display a tab for each buffer
-(use-package dap-mode)
-;; (use-package doom-modeline     :init (doom-modeline-mode 1))    ;;; The bar at the bottom of the screen
-(use-package elpy)
-(use-package evil              :init (evil-mode 1))             ;;; Emacs VI Layer
-;; (use-package fzf)
-(use-package general)                                           ;;; general-define-key
-(use-package gruvbox-theme     :init (load-theme 'gruvbox 1))   ;;; Color scheme
-(use-package helm              :init (helm-mode 1) (defvar using-helm 1))  ;;; Smart search
-(use-package helm-describe-modes)
-(use-package lua-mode)
-(use-package lsp-mode)
-(use-package lsp-ui)
-(use-package magit)
-(use-package nix-mode)
+;;; Icons in minibuffer
+;;; all-the-icons-install-fonts
+(use-package all-the-icons)
+(use-package all-the-icons-completion
+    :init (add-hook 'marginalia-mode-hook
+        #'all-the-icons-completion-marginalia-setup))
+
+;;; Jump back after goto-definition
+(use-package better-jumper
+    :init (better-jumper-mode t))
+
+;;; Startify
+(use-package dashboard
+    :init (dashboard-setup-startup-hook))
+
+;;; Easymotion
+(use-package eno)
+
+;;; Emacs VI Layer
+(use-package evil
+    :init (evil-mode t))
+
+;;; general-define-key
+(use-package general)
+
+;;; Theming
+(use-package gruvbox-theme
+    :init (load-theme 'gruvbox t))
+
+;;; Add the discoverability
+(use-package helpful)
+
+;;; Add notes in M-x
+(use-package marginalia
+    :init (marginalia-mode t))
+
+;;; Project search and navigation
+(use-package projectile)
+
+;;; Transparent Remote Access, Multiple Protocol
+(use-package tramp)
+
+;;; Undo as sane people understand it
 (use-package undo-fu)
-(use-package windsize)
-(use-package yaml)
-(use-package zig-mode)
 
-(straight-use-package '(dtrt-indent
-    :type git
-    :host github
-    :repo "jscheid/dtrt-indent"
-    :init (dtrt-indent-global-mode 1)))
+;;; Resize and navigate splits
+(use-package windsize)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; 3 - EMACS DEFAULTS
+;;; 3 - Defaults
 ;;; Some of this is from DOOM EMACS "better defaults"
 ;;; https://github.com/angrybacon/dotemacs/blob/master/dotemacs.org#better-defaults
 
 (setq-default
-    default-frame-alist '((font . "MesloLGM Nerd Font Mono-13"))
-    desktop-auto-save-timeout 30            ;;; Save desktop/workspace every x SECONDS
+    desktop-auto-save-timeout 60            ;;; Save desktop/workspace every x SECONDS
     frame-resize-pixelwise t                ;;; Enable this if there's empty space around the emacs' window while maximized
     message-log-max nil
-    mac-command-modifier 'meta
-   
+
+    completion-tool "Vertico"               ;;; Helm, Selectrum, Vertico
+    buffer-tabs     "Centaur"               ;;; Centaur
+    use-tab-icons nil
+
     ad-redefinition-action 'accept          ;;; Silence warnings for redefinition
     auto-save-list-file-prefix nil          ;;; Prevent tracking for auto-saves
     cursor-in-non-selected-windows nil      ;;; Hide the cursor in inactive windows
@@ -82,12 +102,17 @@
     select-enable-clipboard t               ;;; Merge system's and Emacs' clipboard
     sentence-end-double-space nil           ;;; Use a single space after dots
     show-help-function nil                  ;;; Disable help text everywhere
+    show-trailing-whitespace t
     tab-always-indent 'complete             ;;; Tab indents first then tries completions
     tab-width 4                             ;;; Smaller width for tab characters
     uniquify-buffer-name-style 'forward     ;;; Uniquify buffer names
     warning-minimum-level :error            ;;; Skip warning buffers
     window-combination-resize t             ;;; Resize windows proportionally
     x-stretch-cursor t)                     ;;; Stretch cursor to the glyph width
+
+    (set-frame-font "MesloLGS NF-12" nil t)
+    ;; (set-frame-font "MesloLGS NF-13" nil t)
+    ;; (set-frame-font "Hack Nerd Font Mono-13" nil t)
 
     (desktop-save-mode t)                   ;;; Offer to save desktop/workspace on exit; M-x: desktop-save; M-x: desktop-read
     (global-linum-mode t)                   ;;; Show line numbers
@@ -96,48 +121,103 @@
     (toggle-scroll-bar -1)                  ;;; Disable scrollbar
 
     (blink-cursor-mode 0)                   ;;; Prefer a still cursor
-    (delete-selection-mode 1)               ;;; Replace region when inserting text
+    (delete-selection-mode t)               ;;; Replace region when inserting text
     (fset 'yes-or-no-p 'y-or-n-p)           ;;; Replace yes/no prompts with y/n
-    (global-subword-mode 1)                 ;;; Iterate through camelCase words
+    (global-subword-mode t)                 ;;; Iterate through camelCase words
     (mouse-avoidance-mode 'exile)           ;;; Avoid collision of mouse with point
     (put 'downcase-region 'disabled nil)    ;;; Enable downcase-region
     (put 'upcase-region 'disabled nil)      ;;; Enable upcase-region
     (set-default-coding-systems 'utf-8)     ;;; Default to utf-8 encoding
-    (show-paren-mode 1)                     ;;; Highlight paren/bracket pairs
+    (show-paren-mode t)                     ;;; Highlight paren/bracket pairs
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; 4 - GLOBAL KEYS
+;;; 4 - Keybinds
+;;; https://github.com/noctuid/general.el
+;;; https://evil.readthedocs.io/en/latest/keymaps.html
 
 (general-define-key
     ;;; Global map and all states by default
-    "C-h e"    'discover-my-mode
+    "M-d"      'find-file
+    "C-h c"    'helpful-command
+    "C-h k"    'helpful-key
+    "C-h m"    'describe-mode
+    "C-q"      'save-buffers-kill-terminal
     "<escape>" 'keyboard-escape-quit)
 
 (general-define-key
-    :states      '(normal visual motion emacs)
-    "C-j"        'centaur-tabs-backward
-    "C-l"        'centaur-tabs-forward
-    "M-u"        (lambda() (interactive) (evil-window-split)  (other-window 1))
-    "M-s"        (lambda() (interactive) (evil-window-vsplit) (other-window 1))
-    "<leader>jb" 'better-jumper-jump-backward
-    "<leader>jf" 'better-jumper-jump-forward
-    "<leader>b"  'helm-buffers-list
-    ;; "<leader>b"  'helm-mini
-    ;; "C-w"        'kill-this-buffer
-    "C-w"        'kill-buffer-and-window
-    "M-w"        'evil-window-delete
-    "SPC"        'evil-send-leader
+    ;; :keymaps '(global Buffer-menu-mode-map)
+    :states  '(normal visual motion emacs)
+    "SPC"    'evil-send-leader
+    ";"      'evil-ex
+    "h"      'evil-insert
+    "H"      'evil-insert-line
+    "M-p"    'projectile-find-file
+    "gd"     'lsp-find-definition
+    "M-b"    'switch-to-buffer
+    "<leader>b" 'switch-to-buffer
+    ;;; Vim movement
+    "i"      'evil-previous-visual-line
+    "k"      'evil-next-visual-line
+    "j"      'evil-backward-char
+    "l"      'evil-forward-char
+    "s"      'eno-word-goto
+    "C-i"    'evil-scroll-up
+    "C-k"    'evil-scroll-down
+    ;;; Undo + redo
+    "u"      'undo-fu-only-undo
+    "C-r"    'undo-fu-only-redo
+    ;;; Back + forward
+    "<"      'better-jumper-jump-backward
+    ">"      'better-jumper-jump-forward
+    ;;; Delete windows
+    "C-w"    'kill-this-buffer
+    "M-w"    'evil-window-delete
+    ;;; Create splits
+    "M-u"    (lambda() (interactive) (evil-window-split)  (other-window t))
+    "M-s"    (lambda() (interactive) (evil-window-vsplit) (other-window t))
     ;;; Navigate splits
-    "M-i"        'windmove-up
-    "M-k"        'windmove-down
-    "M-j"        'windmove-left
-    "M-l"        'windmove-right
+    "M-i"    'windmove-up
+    "M-k"    'windmove-down
+    "M-j"    'windmove-left
+    "M-l"    'windmove-right
     ;;; Resize splits
-    "M-I"        'windsize-up
-    "M-K"        'windsize-down
-    "M-J"        'windsize-left
-    "M-L"        'windsize-right)
+    "M-W"    'windsize-up
+    "M-S"    'windsize-down
+    "M-A"    'windsize-left
+    "M-D"    'windsize-right)
+
+(general-define-key
+    :states      'normal
+    "M-/"        'comment-line
+    "Y"          'evil-yank-to-eol
+    "I"          (lambda() (interactive) (evil-move-line -1))
+    "K"          (lambda() (interactive) (evil-move-line +1))
+    "C-v"        'evil-paste-after
+    "<tab>"      'evil-shift-right-line
+    "<backtab>"  'evil-shift-left-line
+    "<leader>t"  'test
+    "<leader>ca" 'replace-word)
+
+(general-define-key
+    :states     'insert
+    "j"         'maybe-exit
+    "C-v"       'evil-paste-before
+    "M-j"       'left-char
+    "M-l"       'right-char
+    "M-i"       'evil-previous-visual-line
+    "M-k"       'evil-next-visual-line
+    "<M-DEL>"   'evil-delete-backward-word
+    "<tab>"     'evil-shift-right-line
+    "<backtab>" 'evil-shift-left-line)
+
+(general-define-key
+    :states     'visual
+    "I"         (lambda() (interactive) (evil-move-region -1) (evil-visual-restore t))
+    "K"         (lambda() (interactive) (evil-move-region +1) (evil-visual-restore t))
+    "M-/"       'comment-region
+    "<tab>"     'evil-indent-region
+    "<backtab>" 'evil-dedent-region)
 
 (general-define-key
     :keymaps 'package-menu-mode-map
@@ -145,123 +225,68 @@
     "N"      'evil-search-previous
     "/"      'evil-search-forward)
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; 5 - CENTAUR TABS
-;;; https://github.com/ema2159/centaur-tabs
-
-(centaur-tabs-change-fonts "arial" 120)
-(centaur-tabs-headline-match)
-
-(setq
-    centaur-tabs-height 32
-    centaur-tabs-style "bar"
-    centaur-tabs-set-bar 'over
-    centaur-tabs-set-close-button nil
-    centaur-tabs-set-icons t
-    centaur-tabs-set-modified-marker t)
-
-(defun centaur-tabs-hide-tab (x)
-    "Do no to show buffer X in tabs. Whitelist overrides blacklist."
-    (let ((name (format "%s" x))) (and
-        ;; Whitelist
-        (not (or
-            (string-prefix-p "*magit" name)))
-        
-        ;; Blaclist
-        (or
-            ;; Current window is not dedicated window.
-            (window-dedicated-p (selected-window))
-            
-            ;; Is not magit buffer.
-            ;; (and (string-prefix-p "magit" name) (not (file-name-extension name)
-            
-            ;; Buffer name not match below blacklist.
-            (string-prefix-p "*" name)
-            (string-prefix-p "markdown-code-fontification" name)))))
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; 6 - DIRED, HELM, IVY
-
-(global-set-key (kbd "M-d") 'find-file-existing)
-
-(when (ignore-errors using-helm)
-    (global-set-key (kbd "M-x") 'helm-M-x)
-    
-    (setq helm-boring-buffer-regexp-list (list
-        (rx "*")            
-        (rx "markdown-code-fontification")))
-    
-    (setq helm-split-window-inside-p t
-        helm-autoresize-max-height 0
-        helm-autoresize-min-height 20))
+(general-define-key
+    :keymaps 'lsp-mode-map
+    "<f12>"  'lsp-find-definition)
 
 (general-define-key
-    :keymaps      '(helm-map helm-read-file-map)
-    "C-h m"       'describe-mode
-    "C-j"         'helm-find-files-up-one-level
-    "C-i"         'helm-previous-line
-    "C-k"         'helm-next-line
-    "C-l"         'helm-execute-persistent-action
-    "<tab>"       'helm-execute-persistent-action)
+    :keymaps   'company-active-map
+    "M-i"      'company-select-previous
+    "M-k"      'company-select-next
+    "<tab>"    'company-complete
+    "<escape>" 'company-abort)
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;z
-;;; 7 - EVIL
-;;; https://evil.readthedocs.io/en/latest/keymaps.html
-
-(evil-set-leader 'normal (kbd "SPC"))
-
-;;; NORMAL
-(evil-global-set-key 'normal      ";"          'evil-ex)
-(evil-global-set-key 'normal      "h"          'evil-insert)
-(evil-global-set-key 'normal (kbd "<tab>")     'evil-shift-right-line)
-(evil-global-set-key 'normal (kbd "<backtab>") 'evil-shift-left-line)
-;;; INSERT
-(evil-global-set-key 'insert      "j"          'maybe-exit)
-(evil-global-set-key 'insert (kbd "C-j")       'left-char)
-(evil-global-set-key 'insert (kbd "C-l")       'right-char)
-(evil-global-set-key 'insert (kbd "C-i")       'evil-previous-line)
-(evil-global-set-key 'insert (kbd "C-k")       'evil-next-line)
-(evil-global-set-key 'insert (kbd "C-k")       'evil-next-line)
-(evil-global-set-key 'insert (kbd "<C-SPC>")   (lambda() (interactive) (insert " ")))
-(evil-global-set-key 'insert (kbd "<M-DEL>")   'evil-delete-backward-word)
-(evil-global-set-key 'insert (kbd "<tab>")     'evil-shift-right-line)
-(evil-global-set-key 'insert (kbd "<backtab>") 'evil-shift-left-line)
-;;; VISUAL
-(evil-global-set-key 'visual (kbd "<tab>")     'my-evil-indent-region)
-(evil-global-set-key 'visual (kbd "<backtab>") 'my-evil-dedent-region)
-;;; MULTIPLE MODES
 (general-define-key
-    :keymaps '(global dired-mode-map)
-    :states  '(normal visual motion emacs)
-    "i"      'evil-previous-line
-    "j"      'evil-backward-char
-    "k"      'evil-next-line
-    "s"      'evil-ace-jump-char-mode
-    "u"      'undo-fu-only-undo
-    "C-/"    'comment-line
-    "C-i"    'evil-scroll-up
-    "C-k"    'evil-scroll-down
-    "C-r"    'undo-fu-only-redo)
+    :keymaps 'minibuffer-mode-map
+    "M-J"    'evil-backward-word-begin
+    "M-L"    'evil-forward-word-begin)
 
+(defun test ()
+    (interactive)
+    (print (line-number-at-pos)))
 
-(defun my-evil-indent-region()
-    "Shift selected region right. Retains selection."
+(defun replace-word (str)
+    (interactive "sNew string: ")
+    (let ((word (thing-at-point 'word 'no-properties)))
+        (save-excursion
+            (goto-char 0)
+            (replace-string word str))))
+
+(defun evil-yank-to-eol ()
+    "Copy current position to end of line."
+    (interactive)
+    (evil-delete-line nil nil)
+    (evil-undo 0))
+
+(defun evil-move-line (n)
+    (interactive)
+    (evil-visual-line)
+    (evil-move-region n))
+
+(defun evil-move-region (n)
+    "Move region N lines down."
+    (interactive)
+    (setq dir (if (> n 0)
+        evil-visual-end
+        evil-visual-beginning))
+    (evil-move
+        evil-visual-beginning
+        evil-visual-end
+        (+ n -1 (line-number-at-pos dir))))
+
+(defun evil-indent-region ()
+    "Shift region right. Retains selection."
     (interactive)
     (evil-shift-right evil-visual-beginning evil-visual-end)
-    (evil-normal-state)
-    (evil-visual-restore))
+    (evil-visual-restore t))
 
-(defun my-evil-dedent-region()
-    "Shift selected region left. Retains selection."
+(defun evil-dedent-region ()
+    "Shift region left. Retains selection."
     (interactive)
     (evil-shift-left evil-visual-beginning evil-visual-end)
-    (evil-normal-state)
-    (evil-visual-restore))
+    (evil-visual-restore t))
 
-(evil-define-command maybe-exit()
+(evil-define-command maybe-exit ()
     "Exit INSERT mode with jk"
     :repeat change
     (interactive)
@@ -275,54 +300,197 @@
                 (push 'escape unread-command-events))
             (t (setq unread-command-events (append unread-command-events (list evt))))))))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; 8 - FLYCHECK, FLYMAKE
-
-;; (setq flycheck-check-syntax-automatically '(mode-enabled save)) ;;; Only lint on save or emacs will lag
-;; (setq flycheck-python-flake8-executable "flake8") ;;; Give it the absolute path to your flake8 binary if it's not on your $PATH
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; 9 - INDENTATION
-;;; dtrt-indent should already be inferring indentation
-;;; enable this (or find a better package for indentation detection) if it doesn't work in a given mode
-
-; (general-define-key
-;     :keymaps    '(python-mode-map)
-;     :states     '(normal insert visual)
-;     "<tab>"     'python-indent-shift-right
-;     "<backtab>" 'python-indent-shift-left)
+(defun rename-file-and-buffer ()
+  "Rename the current buffer and file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (message "Buffer is not visiting a file!")
+      (let ((new-name (read-file-name "New name: " filename)))
+        (cond
+         ((vc-backend filename) (vc-rename-file filename new-name))
+         (t
+          (rename-file filename new-name t)
+          (set-visited-file-name new-name t t)))))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; 10 - Language Server Protocols (LSP)
-;;; Dependencies: Company, YASnippets, Flymake
-;;; M-x and re-enable language-mode to restart LSP
+;;; 5 - Buffers & Tabs
+
+(pcase buffer-tabs
+    ("Centaur" ()
+        (use-package centaur-tabs)
+        (centaur-tabs-mode t)
+        (centaur-tabs-change-fonts "arial" 120)
+        (centaur-tabs-headline-match)
+
+        (general-define-key
+            :states '(normal visual motion emacs)
+            "C-j"   'centaur-tabs-backward
+            "M-J"   'centaur-tabs-move-current-tab-to-left
+            "C-l"   'centaur-tabs-forward
+            "M-L"   'centaur-tabs-move-current-tab-to-right)
+
+        (defun centaur-tabs-hide-tab (x)
+            "Do no to show buffer X in tabs. Whitelist overrides blacklist."
+            (let ((name (format "%s" x))) (and
+                ;;; Whitelist
+                (not (or
+                    (string-equal "*dashboard*" name)
+                    (string-equal "*Packages*" name)
+                    (string-equal "*eshell*" name)
+                    (string-equal "*ielm*" name)
+                    (string-prefix-p "*magit" name)
+                    (string-prefix-p "*Scratch" name)
+                ))
+                ;;; Blacklist
+                (or
+                    ;;; Current window is not dedicated window
+                    (window-dedicated-p (selected-window))
+
+                    ;;; Is not a magit buffer
+                    ;; (and (string-prefix-p "magit" name) (not (file-name-extension name)
+
+                    (string-prefix-p "*" name)
+                    (string-prefix-p "markdown-code-fontification" name)))))
+
+        (setq
+            centaur-tabs-height 32
+            centaur-tabs-style "bar"
+            centaur-tabs-set-bar 'over
+            centaur-tabs-set-close-button nil
+            centaur-tabs-set-icons use-tab-icons
+            centaur-tabs-set-modified-marker t)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 6 - Telescope (I wish)
+
+(pcase completion-tool
+    ("Helm" ()
+        (use-package helm :init (helm-mode t))
+
+        (global-set-key (kbd "M-x") 'helm-M-x)
+
+        (general-define-key
+            :keymaps '(helm-map helm-read-file-map)
+            "M-i"    'helm-previous-line
+            "M-k"    'helm-next-line
+            "M-j"    'helm-find-files-up-one-level
+            "M-l"    'helm-execute-persistent-action
+            "<tab>"  'helm-execute-persistent-action)
+
+        (general-define-key
+            :states     '(normal visual motion emacs)
+            "<leader>b" 'helm-buffers-list)
+
+        (setq helm-boring-buffer-regexp-list (list
+            (rx "*")
+            (rx "markdown-code-fontification")))
+
+        (setq helm-split-window-inside-p t
+            helm-autoresize-max-height 0
+            helm-autoresize-min-height 20))
+
+    ("Selectrum" ()
+        (use-package selectrum
+            :init (selectrum-mode t))
+
+        ;;; Fuzzy-match completion style (IE "foo bar" matches "foo-bar")
+        (use-package selectrum-prescient
+            :init (selectrum-prescient-mode t))
+
+        (general-define-key
+            :keymaps 'selectrum-minibuffer-map
+            "M-w"    'kill-buffer
+            "M-i"    'selectrum-previous-candidate
+            "M-k"    'selectrum-next-candidate))
+
+    ("Vertico" ()
+        ;;; VERTical Interactive COmpletion
+        (use-package vertico :init (vertico-mode t))
+
+        ;;; Fuzzy-match completion style (IE "foo bar" matches "foo-bar")
+        (use-package orderless)
+
+        (setq
+            vertico-scroll-margin 2
+            vertico-resize 0
+            vertico-count 10
+            completion-styles '(orderless basic)
+            completion-category-defaults nil
+            completion-category-overrides '((file (styles partial-completion))))
+
+        (general-define-key
+            :keymaps 'vertico-map
+            "M-w"    'kill-buffer
+            "M-i"    'vertico-previous
+            "M-k"    'vertico-next)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 7 - Indentation
+
+;;; Guesses indentation offset
+(use-package dtrt-indent
+    :init (setq dtrt-indent-global-mode t))
+
+;; (straight-use-package '(dtrt-indent
+;;     :type git
+;;     :host github
+;;     :repo "jscheid/dtrt-indent"
+;;     :init (dtrt-indent-global-mode t)))
+
+;; (general-define-key
+;;     :keymaps    '(python-mode-map)
+;;     :states     '(normal insert visual)
+;;     "<tab>"     'python-indent-shift-right
+;;     "<backtab>" 'python-indent-shift-left)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; 8 - Language Server Protocols (LSP)
+;;; M-x and toggle language-mode to restart LSP
+;;; https://emacs-lsp.github.io/lsp-mode/page/languages
+
+(use-package company)
+(use-package dap-mode)
+(use-package go-mode)
+(use-package nim-mode)
+(use-package nix-mode)
+(use-package lua-mode)
+(use-package lsp-mode)
+(use-package lsp-ui)
+(use-package yaml)
+(use-package yasnippet)
+(use-package zig-mode)
+
+(use-package lsp-python-ms
+    :init (setq lsp-python-ms-executable
+            (executable-find "python-language-server")))
 
 ;;; LSP settings
-(setq lsp-lens-enable 1)
-(setq lsp-diagnostics-provider :none)
+;; (add-hook 'after-init-hook 'global-company-mode)
+;; (setq lsp-lens-enable t)
+;; (setq lsp-diagnostics-provider :none)
 ;; (setq lsp-enable-snippet nil)
 
-;;; Company settings
-(setq company-idle-delay 0)
-(setq company-minimum-prefix-length 1)
-
-;;; Keybinds
-(general-define-key
-    :keymaps    'company-active-map
-    "<tab>"     'company-complete
-    "C-i"     'company-select-previous-or-abort
-    "C-k"     'company-select-next-or-abort)
-
-(general-define-key
-    :keymaps 'lsp-mode-map
-    "<f12>"  'lsp-find-definition)
+;; Company settings
+;; (setq company-idle-delay 0)
+;; (setq company-minimum-prefix-length 1)
+;; (add-to-list 'company-backends 'company-yasnippet)
 
 ;;; Golang (gopls)
 (add-hook 'go-mode-hook #'go-hooks)
 (defun go-hooks()
+    (setq lsp-enable-snippet t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t)
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (lsp-deferred))
+
+;;; Nim
+(add-hook 'nim-mode-hook #'nim-hooks)
+(defun nim-hooks()
     (setq lsp-enable-snippet nil)
     (add-hook 'before-save-hook #'lsp-organize-imports t t)
     (add-hook 'before-save-hook #'lsp-format-buffer t t)
@@ -331,13 +499,15 @@
 ;;; Ruby (solargraph)
 (add-hook 'ruby-mode-hook #'ruby-hooks)
 (defun ruby-hooks()
-    (setq lsp-enable-snippet 1)
+    (setq lsp-enable-snippet t)
     (add-hook 'before-save-hook #'lsp-organize-imports t t)
     (add-hook 'before-save-hook #'lsp-format-buffer t t)
     (lsp-deferred))
 
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; END
-
-(provide 'init.el)
+;;; Python
+(add-hook 'python-mode-hook #'python-hooks)
+(defun python-hooks()
+    (setq lsp-enable-snippet t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t)
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (lsp-deferred))

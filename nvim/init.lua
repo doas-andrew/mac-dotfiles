@@ -1,4 +1,8 @@
-require "core.global"
-require "core.mappings"
-require "core.options"
-require "plugins.init"
+vim.loader.enable()
+require("core.globals")
+require("core.library")
+require("core.config")
+require("core.options")
+require("core.autocommands")
+require("core.lz")
+require("core.keymaps")

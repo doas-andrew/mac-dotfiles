@@ -1,8 +1,0 @@
-function ytdl_music {
-    if [ -z $2 ]; then
-        echo "Must specify audio format and URL to download from, in that order.\n"
-        echo "Example: $(tput bold)ytdl-music$(tput sgr0) mp3 'https://www.youtube.com/watch?v=wgUczLEUWkA'"
-        return
-    fi
-    youtube-dl $2 --extract-audio --audio-format $1 --audio-quality 0
-}

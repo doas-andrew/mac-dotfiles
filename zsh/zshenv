@@ -1,0 +1,23 @@
+# ----------------------------------------------------------------------
+# Environment variables
+
+export COLORTERM='24bit'
+export MY_ZSH_DIR="$HOME/dotfiles/zsh"
+export WORDCHARS='*?_-[]~=&;!#$%^(){}<>'
+
+
+# ----------------------------------------------------------------------
+# Zstyles
+
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+
+# ----------------------------------------------------------------------
+# PATH
+
+PATH=$HOME/.local/bin:$PATH
+PATH=/opt/homebrew/bin:$PATH
+PATH=$PATH:$HOME/.nimble/bin
+type go >/dev/null && PATH=$(go env GOPATH)/bin:$PATH
+export PATH
