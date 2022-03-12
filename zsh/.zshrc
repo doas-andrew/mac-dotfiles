@@ -35,18 +35,20 @@ if [[ $XDG_CURRENT_DESKTOP = 'XFCE'  ]]; then alias open='thunar';  fi
 # Git
 alias gbr='git branch'
 alias gca='git commit -a'
-alias gcam='git commit -am'
 alias gcl='git clone'
+alias gdd='git add -A'
+alias gcam='git commit -am'
 alias gcm='git commit'
 alias gco='git checkout'
 alias gpf='git push --force-with-lease'
 alias gpl='git pull'
 alias gsh='git stash'
 alias gst='git status'
-alias gtl='git log --decorate --graph'
-alias gtlo='git log --decorate --oneline'
+alias gtl='git log --decorate --graph --stat'
+alias gtlo='git log --oneline'
 
 # Other
+alias be='bundle exec'
 alias bs='brew services'
 alias ls='ls -A'
 alias rgf='rg --files | rg'
@@ -94,8 +96,7 @@ function __exit {
 
 function gqc {
     # "git quick commit"
-    $project_root=git rev-parse --show-toplevel 1>/dev/null || return
-    git add $project_root
+    git add -A
     git commit -am 'squash me (gqc)'
     git push
 }
@@ -106,6 +107,11 @@ function foo {
     DB_TWO='SET!'
 
     if [ "$RAILSENV" = 'review' ] && { [ -z "$DB_ONE" ] || [ -z "$DB_TWO" ]; } then echo 'TRUTHY'; fi; echo 'AFTER';
+}
+
+
+function shell_history {
+    cat $HISTFILE
 }
 
 
@@ -126,3 +132,8 @@ bindkey '^H' backward-kill-line
 zle -N __erase_history
 bindkey '^K' __erase_history
 
+#  bindkey '^[J' beginning-of-line
+#  bindkey '^[L' end-of-line
+
+bindkey '^[J' backward-word
+bindkey '^[L' forward-word
