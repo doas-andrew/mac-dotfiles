@@ -1,0 +1,159 @@
+## Power Level 10k
+## Keep this at the top
+source "$MY_ZSH_DIR/zsh-p10k"
+
+# ----------------------------------------------------------------------
+## Aliases
+
+## File manager
+if [[ $XDG_CURRENT_DESKTOP = 'KDE'     ]]; then alias open='dolphin &'; fi
+if [[ $XDG_CURRENT_DESKTOP = 'GNOME'   ]]; then alias open='nemo &'   ; fi
+if [[ $XDG_CURRENT_DESKTOP = 'XFCE'    ]]; then alias open='thunar &' ; fi
+if [[ $XDG_CURRENT_DESKTOP = 'OPENBOX' ]]; then alias open='pcmanfm &'; fi
+if [[ $XDG_CURRENT_DESKTOP = 'QTILE'   ]]; then
+    alias open='thunar &'
+    alias qlog='bat ~/.local/share/qtile/qtile.log'
+fi
+
+## Git
+alias gbr='git branch'
+alias gca='git commit --amend'
+alias gcam='git commit -am'
+alias gcem='git commit --allow-empty -m'
+alias gcl='git clone'
+alias gco='git checkout'
+alias gcom='git commit'
+alias gdd='git add -A'
+alias gp='git push'
+alias gpf='git push --force-with-lease'
+alias gpl='git pull'
+alias gpla='git pull --all'
+alias gpr='git pull --rebase'
+alias gra='git rebase --abort'
+alias grc='git rebase --continue'
+alias gres='git reset --hard'
+alias gsh='git stash'
+alias gst='git status'
+alias gsup='git push --set-upstream origin $(git branch --show-current)'
+alias gtl='git log --graph --stat'
+alias gtlo='git log --oneline'
+
+## Other
+alias be='bundle exec'
+alias bs='brew services'
+alias l='exa -alh'
+alias ls='exa -a'
+alias rgf='rg --files | rg'
+alias rials='rails'
+alias rseed='rails db:seed:replant RAILS_ENV=test'
+alias rw='railway'
+alias vim='nvim'
+
+
+
+# ----------------------------------------------------------------------
+## Functions
+
+source "$MY_ZSH_DIR/zsh-fn-docker"
+source "$MY_ZSH_DIR/zsh-fn-youtubedl"
+source "$MY_ZSH_DIR/zsh-fn-rsync"
+source "$MY_ZSH_DIR/zsh-fn-ffmpeg"
+source "$MY_ZSH_DIR/zsh-fn-git"
+source "$MY_ZSH_DIR/zsh-nixos"
+
+
+function foo {
+    ## Placeholder for testing shell script snippets
+    #  echo "${WORDCHARS:s#/#}"
+    #  echo "bar"
+
+    local manager="$1"
+
+    # Find suitable default
+    if [ -z $manager ]; then
+      if   command -v overmind &> /dev/null; then manager="overmind"
+      elif command -v foreman  &> /dev/null; then manager="foreman"
+      fi
+    fi
+
+    # Start services
+    #  brew services start mysql
+    #  brew services start redis
+
+    # Start manager
+    case $manager in
+      #  overmind|om) overmind start -m web=1,jobs=1,release=0 -p 3000 ;;
+      #  foreman|fm)  foreman start --formation web=1,jobs=1,release=0 ;;
+      overmind) echo 'here';;
+      foreman) echo 'here2';;
+      *) echo "Unrecognized manager \"$manager\"" ;;
+    esac
+}
+
+function clamscan_default {
+    mkdir -p $HOME/clam_reports
+    sudo freshclam
+    local dir="${1:=/home}"
+    local file="$HOME/clam_reports/clamscan_$(date +%Y%m%d%H%M%S).txt"
+    touch $file
+    echo "Scanning $dir\n" >> $file
+    sudo clamscan $dir \
+        --recursive=yes \
+        --log=$file \
+        --infected \
+        --exclude-dir='.npm' \
+        --exclude-dir='.pnpm' \
+        --exclude-dir='.local/share/Steam'
+    bat $file
+}
+
+function clear_clipboard_history {
+    clipcatctl clear
+}
+
+function xkeyboard_setup {
+    setxkbmap -option caps:swapescape
+    xset r rate 160 60
+}
+
+
+#-------------------------------------------------------------------------------
+## Keybinds
+## https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html
+## List keymaps: bindkey -l
+## List keybinds: bindkey -M vicmd
+
+source "$MY_ZSH_DIR/zsh-widgets"
+
+bindkey '^[w'   __my_exit_shell
+bindkey '^[^?'  backward-delete-word # Alt-BS; \e^?
+bindkey '^[I'   history-search-backward
+bindkey '^[K'   history-search-forward
+bindkey '^[J'   backward-word
+bindkey '^[L'   forward-word
+
+bindkey '^K'   __my_clear_history
+#  bindkey '^K'   clear-screen
+bindkey '^W'   __my_exit_shell
+bindkey '^\b'  backward-kill-line
+
+bindkey '^[^J' beginning-of-line
+bindkey '^[^L' end-of-line
+
+## Simply unbinding escape causes it to eat my next
+## input, so explicitly set it to an empty function.
+bindkey '\e' __my_do_nothing
+
+#  bindkey '\e' expand-or-complete
+#  bindkey '\t' '\e'
+
+#  bindkey jk vi-cmd-mode
+bindkey '^[h' vi-cmd-mode
+bindkey -a '\e' vi-insert
+bindkey -ar h
+#  bindkey -a i up-line-or-history
+#  bindkey -a k down-line-or-history
+bindkey -a i up-line-or-history
+bindkey -a k down-line-or-history
+bindkey -a j vi-backward-char
+bindkey -a l vi-forward-char

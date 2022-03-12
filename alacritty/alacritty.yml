@@ -1,22 +1,34 @@
 colors:
   primary:
+    # nvim github dark
+    #  background: '#262626'
+    #  foreground: '#D0D0D0'
+
+    # github dark
+    #  background: '#23272E'
+    #  foreground: '#ADBAC7'
+
+    # gruvbox dark
     background: '#282828'
     foreground: '#ebdbb2'
 
 cursor:
   thickness: 0.20
   unfocused_hollow: true
-  #blinking: Always
-  #blink_interval: 750
+  #  blinking: Always
+  #  blink_interval: 750
 
 font:
   size: 14.0
   normal:
     family: MesloLGS Nerd Font Mono
+  offset:
+    x: 0
+    y: 0
 
-# tmux already handles this (?)
-#selection:
-  #save_to_clipboard: true
+# tmux already handles this?
+#  selection:
+  #  save_to_clipboard: true
 
 shell:
   program: zsh
@@ -43,6 +55,7 @@ window:
 # Keybinds caught by Alacritty aren't sent to tmux and so on (unless explicitly done)
 # IE <C-0> can't be bound in neovim because it's set as "ResetFontSize" here
 key_bindings:
+  - { key: I,        mods: Control, chars: "\x1b[66;5u\x69"  }
   - { key: Equals,   mods: Control, action: IncreaseFontSize }
   - { key: Minus,    mods: Control, action: DecreaseFontSize }
   - { key: Key0,     mods: Control, action: ResetFontSize    }
@@ -116,3 +129,6 @@ key_bindings:
   - { key: X,    mods: Command | Shift, chars: "\x1bX" }
   - { key: Y,    mods: Command | Shift, chars: "\x1bY" }
   - { key: Z,    mods: Command | Shift, chars: "\x1bZ" }
+
+  #  - { key: I,    mods: Control, chars: "" }
+

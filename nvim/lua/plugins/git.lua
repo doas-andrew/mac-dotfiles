@@ -1,7 +1,7 @@
 local M = {}
 
 M.gitsigns = function()
-    require("gitsigns").setup {
+    require("gitsigns").setup({
         signs = {
             add = { hl = "GitSignsAdd", text = "┃" },
             change = { hl = "GitSignsChange", text = "┃" },
@@ -10,11 +10,11 @@ M.gitsigns = function()
             changedelete = { hl = "GitSignsChange", text = "~" },
         },
         keymaps = { noremap = true, buffer = true },
-    }
+    })
 end
 
 M.neogit = function()
-    require("neogit").setup {
+    require("neogit").setup({
         disable_context_highlighting = false,
         disable_commit_confirmation = true,
         integrations = { diffview = true },
@@ -24,17 +24,17 @@ M.neogit = function()
             item = { "", "" },
             hunk = { "", "" },
         },
-    }
+    })
 end
 
 M.diffview = function()
-    require("diffview").setup {
+    require("diffview").setup({
         key_bindings = {
             disable_defaults = false, -- Disable the default key bindings
-            view = { ["q"] = ":DiffviewClose<cr>" },
-            file_panel = { ["q"] = ":DiffviewClose<cr>" },
+            view = { q = ":DiffviewClose<cr>" },
+            file_panel = { q = ":DiffviewClose<cr>" },
         },
-    }
+    })
 end
 
 M.gitlinker = function()

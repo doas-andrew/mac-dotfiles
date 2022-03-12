@@ -1,7 +1,11 @@
-return { config = function()
+local M = {}
+
+M.config = function()
     require("commented").setup({
         opts = {
-            comment_padding = ""
+            comment_padding = nil
         }
     })
-end}
+end
+
+return M

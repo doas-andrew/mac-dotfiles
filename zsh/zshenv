@@ -1,4 +1,12 @@
 # ----------------------------------------------------------------------
+# Environment variables
+
+#  export COLORTERM="24bit"
+export MY_ZSH_DIR="$HOME/dotfiles/zsh"
+export WORDCHARS="*?_-[]~=&;!#$%^(){}<>"
+
+
+# ----------------------------------------------------------------------
 # Zstyles
 
 autoload -Uz compinit && compinit
@@ -9,4 +17,5 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 # PATH
 
 PATH=$HOME/.local/bin:$PATH
+PATH=/usr/local/bin:$PATH
 export PATH
