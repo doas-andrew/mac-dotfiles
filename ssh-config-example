@@ -1,22 +1,24 @@
-# ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/path/to/key -C "Comment. IE: name@mac"
+## ssh-keygen -o -a 100 -t ed25519 -f ~/.ssh/path/to/key -C "Comment. IE: name@mac"
 
 Host github.com
         User git
         Hostname github.com
         PreferredAuthentications publickey
         IdentitiesOnly yes
-        IdentityFile ~/.ssh/path/to/key
+        IdentityFile ~/.ssh/path/to/key.pub
 
-Host github.com
+## git clone git@github.com:user_name/repo_name.git
+## => git clone git@github-alternate:user_name/repo_name.git
+Host github-alternate
         User git
-        Hostname github.com-alternate
+        Hostname github.com
         PreferredAuthentications publickey
         IdentitiesOnly yes
-        IdentityFile ~/.ssh/path/to/key
+        IdentityFile ~/.ssh/path/to/key.pub
 
 Host bitbucket.org
         User git
         Hostname bitbucket.org
         PreferredAuthentications publickey
         IdentitiesOnly yes
-        IdentityFile ~/.ssh/path/to/key
+        IdentityFile ~/.ssh/path/to/key.pub
