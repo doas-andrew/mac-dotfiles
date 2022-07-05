@@ -116,3 +116,6 @@ key_bindings:
   - { key: X,    mods: Command | Shift, chars: "\x1bX" }
   - { key: Y,    mods: Command | Shift, chars: "\x1bY" }
   - { key: Z,    mods: Command | Shift, chars: "\x1bZ" }
+
+  #  - { key: I,    mods: Control, chars: "" }
+

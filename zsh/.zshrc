@@ -34,25 +34,31 @@ if [[ $XDG_CURRENT_DESKTOP = 'XFCE'  ]]; then alias open='thunar';  fi
 
 # Git
 alias gbr='git branch'
-alias gca='git commit -a'
 alias gcl='git clone'
 alias gdd='git add -A'
+alias gca='git commit --amend'
 alias gcam='git commit -am'
 alias gcm='git commit'
 alias gco='git checkout'
+alias gcom='git commit'
+alias gp='git push'
 alias gpf='git push --force-with-lease'
 alias gpl='git pull'
+alias gpr='git pull --rebase'
 alias gsh='git stash'
 alias gst='git status'
 alias gtl='git log --decorate --graph --stat'
 alias gtlo='git log --oneline'
+alias gsup='git push --set-upstream origin "$(git branch --show-current)"'
 
 # Other
 alias be='bundle exec'
 alias bs='brew services'
-alias ls='ls -A'
+alias ls='exa -a'
 alias rgf='rg --files | rg'
 alias rials='rails'
+alias rw='railway'
+alias vim='nvim'
 
 
 # ----------------------------------------------------------------------
@@ -94,8 +100,12 @@ function __exit {
     exit
 }
 
+function gpruned {
+    git fetch -p ; git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '{print $1}' | xargs git branch -d
+}
+
 function gqc {
-    # "git quick commit"
+    ## "git quick commit"
     git add -A
     git commit -am 'squash me (gqc)'
     git push
@@ -108,7 +118,6 @@ function foo {
 
     if [ "$RAILSENV" = 'review' ] && { [ -z "$DB_ONE" ] || [ -z "$DB_TWO" ]; } then echo 'TRUTHY'; fi; echo 'AFTER';
 }
-
 
 function shell_history {
     cat $HISTFILE

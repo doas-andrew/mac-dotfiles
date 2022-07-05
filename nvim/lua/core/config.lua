@@ -9,7 +9,7 @@ return {
     -- If in this many milliseconds nothing is typed the swap file will be
     -- written to disk.
     -- @value: number
-    updatetime = 300,
+    updatetime = 1000,
 
     -- Useful to align text.
     -- @value: number

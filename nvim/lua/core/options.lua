@@ -172,7 +172,7 @@ vim.g.loaded_remote_plugins = 1
 ----------------------------------------------------------------------
 -- BACKUP AND SWAP
 ----------------------------------------------------------------------
-vim.opt.swapfile = false
+vim.opt.swapfile = true
 vim.opt.undofile = true
 vim.opt.backup = false
 vim.opt.writebackup = false
