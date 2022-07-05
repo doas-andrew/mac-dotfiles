@@ -13,8 +13,8 @@ if which rofi;      then ln -sfn ~/dotfiles/rofi      ~/.config/rofi;      fi
 if which tmux;      then ln -sfn ~/dotfiles/tmux      ~/.config/tmux;      fi
 
 if which zsh; then
-    ln -sfn ~/dotfiles/zsh/.zshrc  ~/.zshrc
-    ln -sfn ~/dotfiles/zsh/.zshenv ~/.zshenv
+    ln -sfn ~/dotfiles/zsh/zshrc  ~/.zshrc
+    ln -sfn ~/dotfiles/zsh/zshenv ~/.zshenv
 
     if [ ! -d "$HOME/dotfiles/zsh/powerlevel10k" ]; then
         git clone https://github.com/romkatv/powerlevel10k ~/dotfiles/zsh/powerlevel10k
