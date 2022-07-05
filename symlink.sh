@@ -71,7 +71,6 @@ fi
 # if which subl; then
     # mkdir -p ~/.config/sublime-text-3/Packages/User
     # ln -sfn ~/dotfiles/sublime/'Package Control.sublime-settings' ~/.config/sublime-text-3/Packages/User/'Package Control.sublime-settings'
-    # ln -sfn ~/dotfiles/sublime/'Installed Packages'               ~/.config/sublime-text-3/'Installed Packages'
     # ln -sfn ~/dotfiles/sublime/'Preferences.sublime-settings'     ~/.config/sublime-text-3/Packages/User/'Preferences.sublime-settings'
     # ln -sfn ~/dotfiles/sublime/'Default (Linux).sublime-keymap'   ~/.config/sublime-text-3/Packages/User/'Default (Linux).sublime-keymap'
 # fi
