@@ -2,9 +2,26 @@ return {
     ----------------------------------------------------------------------
     --- General Settings
     ----------------------------------------------------------------------
+
+    -- Set theme; Not compatible with all color schemes
+    -- @value: string: light, dark
+    color_theme = "dark",
+
+    -- Set theme; Not compatible with all color schemes
+    -- @value: string: gruvbox, onenord
+    color_scheme = "gruvbox",
+
+    -- Enable mouse in Neovim
+    -- @value: boolean
+    enable_mouse = true,
+
+    -- Insert spaces instead of tabs
+    -- @value: boolean
+    insert_spaces = true,
+
     -- Time in milliseconds to wait for a mapped sequence to complete.
     -- @value: number
-    timeoutlen = 400,
+    timeoutlen = 300,
 
     -- If in this many milliseconds nothing is typed the swap file will be
     -- written to disk.
@@ -18,6 +35,14 @@ return {
     -- Keep the cursor as a block in insert mode.
     -- @value: boolean
     cursor_block = false,
+
+    -- Cache undo history and restore it to buffer on file load
+    -- @value: boolean
+    remember_undo_history = false,
+
+    -- Turn this off for "big" files
+    -- @value: boolean
+    use_swapfile = true,
 
     -- Number of screen lines to use for the command-line.
     -- @value: number
@@ -35,11 +60,11 @@ return {
     -- Show the line number relative to the line with the cursor in front of
     -- each line.
     -- @value: boolean
-    relativenumber = false,
+    relative_number = false,
 
     -- Highlight the screen line of the cursor.
     -- @value: boolean
-    cursorline = false,
+    cursor_line = false,
 
     -- When on, lines longer than the width of the window will wrap and
     -- displaying continues on the next line.
@@ -56,10 +81,11 @@ return {
 
     -- Chars for trailing space, eol, tab, etc.
     -- @value: boolean
-    listchars = false,
+    list_chars = true,
 
-    -- Adds indentation guides to all lines.
+    -- Show guidelines for nested blocks.
     -- @value: boolean
+    -- UNUSED
     indent_guides = false,
 
     -- Basic trim of trailing white space.
@@ -71,15 +97,50 @@ return {
     format_on_save = true,
 
     -- File explorer side.
-    -- @value: string (left or right)
-    explorer_side = "right",
-    
+    -- @value: string: left, right
+    explorer_side = "left",
+
+    -- Use these keys for easymotion hints
+    -- @value: string
+    -- @default: etovxqpdygfblzhckisuran
+    easymotion_keys = "etovxqpdygfblzhckisuran",
+
+
+    ----------------------------------------------------------------------
+    -- LSP
+    ----------------------------------------------------------------------
+
+    -- Enable Language Server Protocol
+    -- @value: boolean
+    lsp_enabled = true,
+
+    -- Milliseconds to wait before LSP updates
+    -- @value: integer
+    lsp_debounce = 150,
+
+    -- ???
+    -- @value: boolean
+    lsp_document_highlight = true,
+
+    -- Enable autocomplete
+    -- @value: boolean
+    code_autocomplete = true,
+
+    -- Number of items shown in autocomplete suggestions
+    -- @value: integer
+    compe_items = 10,
+
+    -- Width of LSP window
+    -- @value: string: single, double
+    lsp_window_borders = "single",
+
+
     ----------------------------------------------------------------------
     -- Startify
     ----------------------------------------------------------------------
     -- Choose your startify footer.
     -- @value: string
-    startify_footer = "Better with Lua",
+    startify_footer = "",
 
     -- Position of the startify header.
     -- @options: center, pad

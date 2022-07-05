@@ -1,4 +1,12 @@
 # ----------------------------------------------------------------------
+# Environment variables
+
+export COLORTERM="24bit"
+export MY_ZSH_DIR="$HOME/dotfiles/zsh"
+export WORDCHARS="*?_-[]~=&;!#$%^(){}<>"
+
+
+# ----------------------------------------------------------------------
 # Zstyles
 
 autoload -Uz compinit && compinit

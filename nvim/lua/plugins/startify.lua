@@ -1,18 +1,35 @@
-return { config = function()
+local M = {}
+
+M.config = function()
+    vim.cmd([[
+        autocmd User Startified execute 'nunmap <buffer>' 'i'
+        autocmd User Startified execute 'nunmap <buffer>' 'e'
+    ]])
+    -- vim.api.nvim_create_autocmd({ "User", "Startified" }, {
+        -- desc = "Unmap i",
+        -- command = "'nunmap <buffer>' 'i'"
+    -- })
+
     vim.g.startify_lists = {
-        { type = "sessions",  header = { "   Sessions"     } },
-        { type = "commands",  header = { "   Commands"     } },
-        { type = "files",     header = { "   Recent Files" } },
         { type = "bookmarks", header = { "   Bookmarks"    } },
+        { type = "files",     header = { "   Recent Files" } },
+        -- { type = "sessions",  header = { "   Sessions"     } },
+        -- { type = "commands",  header = { "   Commands"     } },
     }
     vim.g.startify_bookmarks = {
-        { al  = "~/.config/alacritty/alacritty.yml"    },
-        { tm  = "~/.config/tmux/tmux.conf"             },
-        { zsh = "~/.zshrc"                             },
-        { ni  = "~/.config/nvim/init.lua"              },
-        { nc  = "~/.config/nvim/lua/core/config.lua"   },
-        { np  = "~/.config/nvim/lua/plugins/init.lua"  },
-        { nm  = "~/.config/nvim/lua/core/mappings.lua" },
+        { al  = "~/.config/alacritty/alacritty.yml"       },
+        { esp = "~/.config/espanso/default.yml"           },
+        { hx  = "~/dotfiles/helix/config.toml"            },
+        { nix = "~/dotfiles/nixos/configuration.nix"      },
+        { ob  = "~/.config/openbox/rc.xml"                },
+        { po  = "~/.config/polybar/config.ini"            },
+        { st  = "~/.config/nvim/lua/plugins/startify.lua" },
+        { tm  = "~/.config/tmux/tmux.conf"                },
+        { vc  = "~/.config/nvim/lua/core/config.lua"      },
+        { vm  = "~/.config/nvim/lua/core/mappings.lua"    },
+        { vp  = "~/.config/nvim/lua/plugins/init.lua"     },
+        { xm  = "~/dotfiles/xmonad/xmonad.hs"             },
+        { z   = "~/dotfiles/zsh/zshrc"                    },
     }
     vim.g.startify_commands = {
         { "Find files",      ":Telescope fd"        },
@@ -32,17 +49,19 @@ return { config = function()
     vim.g.startify_session_delete_buffers =  1  -- Let Startify handle buffers
     vim.g.startify_session_persistence    =  1  -- Automatically update sessions
     vim.g.startify_session_sort           =  1  -- Sort sessions by modification time
-    
+
     -- Header and footer
     if vim.g.code_startify_footer ~= nil then
         vim.g.startify_custom_footer = "startify#center([g:code_startify_footer])"
     end
-    local posi = vim.g.startify_header_position or "center"
     if vim.g.code_startify_header_ascii ~= nil then
+        local posi = vim.g.startify_header_position or "center"
         if vim.g.startify_header_ascii == "cowsay" then
             vim.g.startify_custom_header = "startify#" .. posi .. "(startify#fortune#cowsay())"
         else
             vim.g.startify_custom_header = "startify#" .. posi .. "(g:code_startify_header_ascii)"
         end
     end
-end}
+end
+
+return M

@@ -1,149 +1,158 @@
-return { config = function()
-    local actions = require "telescope.actions"
-    require("telescope").setup {
+local ignore = {
+    "node_modules",
+    "package-lock.json",
+    "_build",
+    ".mkvtest",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".webp",
+    ".pdf",
+    ".mp3",
+    ".mp4",
+    ".m4a",
+    ".opus",
+    ".flac",
+    ".doc",
+    ".zip",
+    ".odt",
+    ".ots",
+    ".docx",
+    ".xlsx",
+    ".xls",
+    ".pptx",
+    ".dxvk",
+    ".rpf",
+    ".dll",
+    ".kdbx",
+    ".exe",
+}
+
+local M = {}
+
+M.config = function()
+    local load_extension = require("telescope").load_extension
+    local actions = require("telescope.actions")
+    local layout = require("telescope.actions.layout")
+
+    require("telescope").setup({
         defaults = {
-            vimgrep_arguments = {
-                "rg",
-                "--hidden",
-                "--no-heading",
-                "--with-filename",
-                "--line-number",
-                "--column",
-                "--smart-case",
-            },
             prompt_prefix = "  ",
-            selection_caret = " ",
-            -- selection_caret = "❯ ",
-            sorting_strategy = "descending",
-            layout_strategy = "horizontal",
-            layout_config = { height = 0.8, width = 0.8 },
-            file_ignore_patterns = {
-                "node_modules",
-                "package.json",
-                "package-lock.json",
-                ".mkv",
-                ".png",
-                ".jpg",
-                ".jpeg",
-                ".webp",
-                ".pdf",
-                ".mp3",
-                ".mp4",
-                ".m4a",
-                ".opus",
-                ".flac",
-                ".doc",
-                ".zip",
-                ".odt",
-                ".ots",
-                ".docx",
-                ".xlsx",
-                ".xls",
-                ".pptx",
-                ".dxvk",
-                ".rpf",
-                ".dll",
-                ".kdbx",
-                ".exe",
-            },
+            selection_caret = "❯ ",
             mappings = {
                 i = {
-                    ["<CR>"]  = actions.select_tab + actions.center,
-                    ["<C-w>"] = actions.close,
-                    ["<M-w>"] = actions.close,
-                    ["<Esc>"] = actions.close,
-                    ["<C-i>"] = actions.move_selection_previous,
-                    ["<C-k>"] = actions.move_selection_next,
-                    ["<C-n>"] = actions.cycle_history_next,
-                    ["<C-p>"] = actions.cycle_history_prev,
+                    ["?"] = actions.which_key,
+                    ["<M-p"] = layout.toggle_preview,
+                    -- ["<M-CR>"] = actions.select_default,
+                    ["<M-w>"]  = actions.close,
+                    ["<Esc>"]  = actions.close,
+                    ["<M-i>"]  = actions.move_selection_previous,
+                    ["<M-k>"]  = actions.move_selection_next,
+                    ["<M-I>"]  = actions.cycle_history_prev,
+                    ["<M-K>"]  = actions.cycle_history_next,
+                    -- ["<M-BS>"]
                 },
                 n = {
-                    ["<CR>"]  = actions.select_tab + actions.center,
-                    ["<C-w>"] = actions.close,
                     ["<M-w>"] = actions.close,
                     ["<Esc>"] = actions.close,
-                    ["k"] = actions.move_selection_next,
-                    ["i"] = actions.move_selection_previous,
+                    i = actions.move_selection_previous,
+                    k = actions.move_selection_next,
                 },
             },
         },
+
         pickers = {
-            -- Your special builtin config goes in here
-            buffers = {
-                sort_lastused = true,
-                ignore_current_buffer = true,
-                layout_strategy = "horizontal",
-                layout_config = { height = 20, preview_width = 0.6 },
-                show_all_buffers = true,
+
+            live_grep = {
+                -- "Search all"
+                file_ignore_patterns = ignore,
+                layout_config = {
+                    height = 0.90,
+                    width = 0.90,
+                    preview_width = 0.60
+                },
+            },
+
+            find_files = {
+                -- "Ctrl-p"
+                file_ignore_patterns = ignore,
+                theme = "dropdown",
+                sorting_strategy = "ascending",
+                previewer = false,
+                layout_config = { height = 25 },
+                find_command = {
+                    "fd",
+                    "--type", "f",
+                    "--type", "l",
+                    "--hidden",
+                    "--no-ignore"
+                },
                 mappings = {
                     i = {
-                        ["<c-d>"] = actions.delete_buffer,
+                        ["<M-p>"] = actions.close,
                     },
                     n = {
-                        ["<c-d>"] = actions.delete_buffer,
+                        ["<M-p>"] = actions.close,
+                    },
+                },
+
+            },
+
+            buffers = {
+                theme = "ivy",
+                layout_config = { height = 20, preview_width = 0.5 },
+                sort_lastused = true,
+                show_all_buffers = true,
+                ignore_current_buffer = true,
+                mappings = {
+                    i = {
+                        ["<M-d>"] = actions.delete_buffer,
+                    },
+                    n = {
+                        ["<M-d>"] = actions.delete_buffer,
                     },
                 },
             },
-            live_grep = {
-                theme = "ivy",
-                layout_config = { height = 15 },
-            },
-            current_buffer_fuzzy_find = {
-                theme = "ivy",
-                layout_config = { height = 15 },
-            },
-            lsp_code_actions = {
-                layout_strategy = "horizontal",
-                layout_config = { height = 10, width = 0.5 },
-            },
-            lsp_range_code_actions = {
-                layout_strategy = "horizontal",
-                layout_config = { height = 10, width = 0.5 },
-            },
-            lsp_document_diagnostics = {
-                layout_config = { width = 0.7 },
-                layout_strategy = "vertical",
-            },
-            lsp_workspace_diagnostics = {
-                layout_config = { width = 0.7 },
-                layout_strategy = "vertical",
-            },
-            find_files = {
-                layout_config = { height = 35, preview_width = 0.55 },
-            },
-            help_tags = {
-                layout_config = { height = 35, preview_width = 0.65 },
-            },
-            git_files = {
-                layout_config = { height = 35, preview_width = 0.55 },
-            },
-            fd = {
-                layout_config = { height = 35, preview_width = 0.55 },
-            },
-            file_browser = {
-                layout_config = { height = 35, preview_width = 0.65 },
-                hidden = true,
-            },
-            lsp_document_symbols = { previewer = false },
-            lsp_workspace_symbols = { previewer = false },
         },
+
         extensions = {
-            fzf = {
-                fuzzy = true,                   -- false will only do exact matching
-                override_generic_sorter = true, -- override the generic sorter
-                override_file_sorter = true,    -- override the file sorter
-                case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
+
+            ["zf-native"] = {
+                -- options for sorting file-like items
+                file = {
+                    enable            = true, -- override default telescope file sorter
+                    highlight_results = true, -- highlight matching text in results
+                    match_filename    = true, -- enable zf filename match priority
+                },
+                -- options for sorting all other items
+                generic = {
+                    enable            = true,  -- override default telescope generic item sorter
+                    highlight_results = true,  -- highlight matching text in results
+                    match_filename    = false, -- disable zf filename match priority
+                },
             },
+
+            file_browser = {
+                mappings = {
+                    i = {
+                        ["<M-d>"] = actions.close,
+                    },
+                    n = {
+                        ["<M-d>"] = actions.close,
+                    },
+                },
+            },
+
             media_files = {
-                -- filetypes whitelist; defaults to {"png", "jpg", "mp4", "webm", "pdf"}
-                filetypes = {"png", "webp", "jpg", "jpeg"},
-                find_cmd = "rg", -- find command; (defaults to `fd`)
+                -- filetypes = { "png", "webp", "webm", "jpg", "jpeg" },
+                find_cmd = "fd",
             },
         },
-    }
-    -- NOTE: not sure if this actually loads the extension.
-    pcall(require("telescope").load_extension, "fzf") 
-    pcall(require("telescope").load_extension, "media_files")
-end}
-                    -- ["<CR>"]  = actions.select_default + actions.center,
-                    -- ["<CR>"]  = actions.select_tab + actions.center,
+    })
+
+    load_extension("file_browser")
+    load_extension("media_files")
+    load_extension("zf-native")
+end
+
+return M
