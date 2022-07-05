@@ -1,6 +1,6 @@
 # Directories I don't want to make later
 mkdir -p ~/.config
-mkdir -p ~/.ssh && cp ~/dotfiles/ssh-config-example ~/.ssh/config
+mkdir -p ~/.ssh && cp -n ~/dotfiles/ssh-config-example ~/.ssh/config
 mkdir -p ~/.local/bin
 
 if which alacritty; then ln -sfn ~/dotfiles/alacritty ~/.config/alacritty; fi
