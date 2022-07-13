@@ -13,6 +13,9 @@ font:
   size: 14.0
   normal:
     family: MesloLGS Nerd Font Mono
+  offset:
+    x: 0
+    y: 0
 
 # tmux already handles this (?)
 #selection:

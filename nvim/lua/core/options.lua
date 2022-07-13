@@ -13,6 +13,7 @@ vim.opt.ttimeoutlen = 10
 
 vim.opt.background = vim.g.code_color_theme
 pcall(vim.cmd, [[ colorscheme ]] .. vim.g.code_color_scheme)
+vim.g.catppuccin_flavour = "latte" -- latte, frappe, macchiato, mocha
 
 
 ----------------------------------------------------------------------
@@ -78,6 +79,10 @@ vim.opt.numberwidth = 1
 vim.opt.confirm = true
 vim.opt.fileencoding = "utf-8"
 vim.opt.showmode = false
+
+-- Doesn't work
+-- vim.opt.linespace = vim.g.code_linespace
+
 
 ----------------------------------------------------------------------
 -- List Chars

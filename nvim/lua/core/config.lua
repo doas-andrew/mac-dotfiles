@@ -8,7 +8,7 @@ return {
     color_theme = "dark",
 
     -- Set theme; Not compatible with all color schemes
-    -- @value: string: gruvbox, onenord
+    -- @value: string: gruvbox, onenord, catppuccin
     color_scheme = "gruvbox",
 
     -- Enable mouse in Neovim
@@ -51,6 +51,10 @@ return {
     -- Minimal number of screen lines to keep above and below the cursor.
     -- @value: number
     scrolloff = 5,
+
+    -- Number of pixel lines inserted between characters.
+    -- @value: number
+    linespace = 4,
 
     -- Number of spaces to use for each step of (auto)indent and number
     -- of spaces that a <Tab> counts for.

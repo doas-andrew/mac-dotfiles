@@ -1,4 +1,6 @@
 local ignore = {
+    "tmp",
+    ".git",
     "node_modules",
     "package-lock.json",
     "_build",

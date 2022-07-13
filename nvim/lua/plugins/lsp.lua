@@ -29,17 +29,17 @@ local opts = {
             max_width = 90, fix_pos = true, hint_prefix = " "
         })
 
-        if client and client.server_capabilities.codeLensProvider then
-            as.augroup("RefreshCodeLens", {
-                {
-                    event = { "BufEnter", "CursorHold", "InsertLeave" },
-                    buffer = bufnr,
-                    command = function()
-                        vim.lsp.codelens.refresh()
-                    end,
-                },
-            })
-        end
+        -- if client and client.server_capabilities.codeLensProvider then
+            -- as.augroup("RefreshCodeLens", {
+                -- {
+                    -- event = { "BufEnter", "CursorHold", "InsertLeave" },
+                    -- buffer = bufnr,
+                    -- command = function()
+                        -- vim.lsp.codelens.refresh()
+                    -- end,
+                -- },
+            -- })
+        -- end
 
         -- as.map("n", "gd", ":lua vim.lsp.buf.definition()<CR>")
         -- as.map("n", "gD", ":lua vim.lsp.buf.declaration()<CR>")

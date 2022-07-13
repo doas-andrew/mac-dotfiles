@@ -143,8 +143,8 @@ as.map("n", "<leader>bcr", ":BufferCloseBuffersRight<CR>")
 
 as.map("n", "<M-w>", ":exit<CR>")
 as.map("n", "<C-w>", ":BufferClose<CR>")
-as.map("n", "ZZ", ":w<CR>:BufferClose<CR>")
-as.map("n", "ZQ", ":BufferClose<CR>")
+-- as.map("n", "ZZ", ":w<CR>:BufferClose<CR>")
+-- as.map("n", "ZQ", ":BufferClose<CR>")
 
 -- Pinned buffers are grouped together before other buffers;
 -- They are not protected from being closed.
