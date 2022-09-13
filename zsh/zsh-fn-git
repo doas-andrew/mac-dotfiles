@@ -3,6 +3,11 @@
 function gqc {
     git add -A
     git commit -m 'Squash me (gqc)'
+}
+
+function gqcp {
+    git add -A
+    git commit -m 'Squash me (gqc)'
     git push
 }
 

@@ -134,10 +134,6 @@ local function pack_use()
 
     use "ellisonleao/gruvbox.nvim"
     use "rmehri01/onenord.nvim"
-    use {
-        "catppuccin/nvim",
-        as = "catppuccin",
-    }
 
     use {
         "mhinz/vim-startify",
@@ -179,7 +175,7 @@ local function pack_use()
 
     use {
         "lukas-reineke/indent-blankline.nvim",
-        disable = true,
+        -- disable = true,
         config = function()
             require("plugins.indent-guides").config()
         end,

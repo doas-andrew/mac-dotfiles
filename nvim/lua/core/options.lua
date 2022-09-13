@@ -12,9 +12,7 @@ vim.opt.ttimeoutlen = 10
 ----------------------------------------------------------------------
 
 vim.opt.background = vim.g.code_color_theme
-pcall(vim.cmd, [[ colorscheme ]] .. vim.g.code_color_scheme)
-vim.g.catppuccin_flavour = "latte" -- latte, frappe, macchiato, mocha
-
+pcall(vim.cmd, "colorscheme " .. vim.g.code_color_scheme)
 
 ----------------------------------------------------------------------
 -- Window splitting and buffers

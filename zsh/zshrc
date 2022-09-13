@@ -28,7 +28,9 @@ alias gdd='git add -A'
 alias gp='git push'
 alias gpf='git push --force-with-lease'
 alias gpl='git pull'
+alias gpla='git pull --all'
 alias gpr='git pull --rebase'
+alias grc='git rebase --continue'
 alias gres='git reset --hard'
 alias gsh='git stash'
 alias gst='git status'
@@ -39,12 +41,11 @@ alias gtlo='git log --oneline'
 ## Other
 alias be='bundle exec'
 alias bs='brew services'
-alias hrk='heroku'
 alias l='exa -alh'
 alias ls='exa -a'
-alias lf='lfub'
 alias rgf='rg --files | rg'
 alias rials='rails'
+alias rseed='rails db:seed:replant RAILS_ENV=test'
 alias rw='railway'
 alias vim='nvim'
 
@@ -64,7 +65,29 @@ source "$MY_ZSH_DIR/zsh-nixos"
 function foo {
     ## Placeholder for testing shell script snippets
     #  echo "${WORDCHARS:s#/#}"
-    echo "bar"
+    #  echo "bar"
+
+    local manager="$1"
+
+    # Find suitable default
+    if [ -z $manager ]; then
+      if   command -v overmind &> /dev/null; then manager="overmind"
+      elif command -v foreman  &> /dev/null; then manager="foreman"
+      fi
+    fi
+
+    # Start services
+    #  brew services start mysql
+    #  brew services start redis
+
+    # Start manager
+    case $manager in
+      #  overmind|om) overmind start -m web=1,jobs=1,release=0 -p 3000 ;;
+      #  foreman|fm)  foreman start --formation web=1,jobs=1,release=0 ;;
+      overmind) echo 'here';;
+      foreman) echo 'here2';;
+      *) echo "Unrecognized manager \"$manager\"" ;;
+    esac
 }
 
 function clamscan_default {
@@ -128,6 +151,8 @@ bindkey '\e' __my_do_nothing
 bindkey '^[h' vi-cmd-mode
 bindkey -a '\e' vi-insert
 bindkey -ar h
+#  bindkey -a i up-line-or-history
+#  bindkey -a k down-line-or-history
 bindkey -a i up-line-or-history
 bindkey -a k down-line-or-history
 bindkey -a j vi-backward-char
