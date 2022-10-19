@@ -5,7 +5,7 @@ mkdir -p ~/.local/bin
 
 if which alacritty; then ln -sfn ~/dotfiles/alacritty ~/.config/alacritty; fi
 if which cantata;   then ln -sfn ~/dotfiles/cantata   ~/.config/cantata;   fi
-#  if which irb;       then ln -sfn ~/dotfiles/irb       ~/.config/irb;       fi
+if which irb;       then ln -sfn ~/dotfiles/irb/irbrc ~/.irbrc;            fi
 if which mpv;       then ln -sfn ~/dotfiles/mpv       ~/.config/mpv;       fi
 if which nvim;      then ln -sfn ~/dotfiles/nvim      ~/.config/nvim;      fi
 if which nyxt;      then ln -sfn ~/dotfiles/nyxt      ~/.config/nyxt;      fi

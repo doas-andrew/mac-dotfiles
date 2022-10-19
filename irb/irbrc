@@ -1,1 +1,1 @@
-IRB.conf[:INSPECT_MODE]=nil
+IRB.conf[:USE_AUTOCOMPLETE] = false
