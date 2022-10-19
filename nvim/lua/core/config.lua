@@ -8,7 +8,7 @@ return {
     color_theme = "dark",
 
     -- Set theme; Not compatible with all color schemes
-    -- @value: string: gruvbox, onenord, catppuccin
+    -- @value: string: gruvbox, onenord
     color_scheme = "gruvbox",
 
     -- Enable mouse in Neovim

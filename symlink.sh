@@ -5,6 +5,7 @@ mkdir -p ~/.local/bin
 
 if which alacritty; then ln -sfn ~/dotfiles/alacritty ~/.config/alacritty; fi
 if which cantata;   then ln -sfn ~/dotfiles/cantata   ~/.config/cantata;   fi
+#  if which irb;       then ln -sfn ~/dotfiles/irb       ~/.config/irb;       fi
 if which mpv;       then ln -sfn ~/dotfiles/mpv       ~/.config/mpv;       fi
 if which nvim;      then ln -sfn ~/dotfiles/nvim      ~/.config/nvim;      fi
 if which nyxt;      then ln -sfn ~/dotfiles/nyxt      ~/.config/nyxt;      fi
@@ -43,12 +44,6 @@ if [[ $XDG_CURRENT_DESKTOP = 'AWESOME' ]]; then
     ln -sfn ~/dotfiles/awesome ~/.config/awesome
 fi
 
-if [[ $XDG_CURRENT_DESKTOP = 'KDE' ]]; then
-    ln -sfn ~/dotfiles/kde/latte-dock/latte-config      ~/.config/latte
-    ln -sfn ~/dotfiles/kde/latte-dock/latte-local-share ~/.local/share/latte
-    ln -sfn ~/dotfiles/kde/latte-dock/lattedockrc       ~/.config/lattedockrc
-fi
-
 if [[ $XDG_CURRENT_DESKTOP = 'GNOME' ]]; then
     # BACK UP WITH:
     # dconf dump / > ~/dotfiles/gnome/gnomeX_settings.dconf
@@ -58,14 +53,6 @@ if [[ $XDG_CURRENT_DESKTOP = 'GNOME' ]]; then
         mkdir -p ~/.local/share/nemo
         ln -sfn ~/dotfiles/gnome/nemo/actions ~/.local/share/nemo/actions
     fi
-fi
-
-if [[ $XDG_CURRENT_DESKTOP = 'XFCE' ]]; then
-    # XFCE (or Void linux?) generates a "uuid" file in ~/.fonts for some reason
-    cp -r   ~/dotfiles/.fonts            ~/.fonts
-    ln -sfn ~/dotfiles/xfce/Mousepad     ~/.config/Mousepad
-    ln -sfn ~/dotfiles/xfce/xfce4-config ~/.config/xfce4
-    ln -sfn ~/dotfiles/xfce/xfce4-local  ~/.local/share/xfce4
 fi
 
 # if which subl; then
