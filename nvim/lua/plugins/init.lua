@@ -134,6 +134,15 @@ local function pack_use()
 
     use "ellisonleao/gruvbox.nvim"
     use "rmehri01/onenord.nvim"
+    use {
+        "projekt0n/github-nvim-theme",
+        config = function()
+            require('github-theme').setup({
+                --  theme_style = "dimmed",
+                hide_inactive_statusline = true,
+            })
+        end
+    }
 
     use {
         "mhinz/vim-startify",
@@ -151,6 +160,7 @@ local function pack_use()
     }
 
     use {
+        --  disable = true,
         "nvim-lualine/lualine.nvim",
         requires = { "kyazdani42/nvim-web-devicons" },
         config = function()

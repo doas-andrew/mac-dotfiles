@@ -1,7 +1,16 @@
 colors:
   primary:
-    background: '#282828'
-    foreground: '#ebdbb2'
+    # nvim github dark
+    background: '#262626'
+    foreground: '#D0D0D0'
+
+    # github dark
+    #  background: '#23272E'
+    #  foreground: '#ADBAC7'
+
+    # gruvbox dark
+    #  background: '#282828'
+    #  foreground: '#ebdbb2'
 
 cursor:
   thickness: 0.20
@@ -17,9 +26,9 @@ font:
     x: 0
     y: 0
 
-# tmux already handles this (?)
-#selection:
-  #save_to_clipboard: true
+## tmux already handles this?
+# selection:
+  # save_to_clipboard: true
 
 shell:
   program: zsh
