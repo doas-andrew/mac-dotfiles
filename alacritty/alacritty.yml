@@ -2,7 +2,7 @@ colors:
   primary:
     # nvim github dark
     background: '#262626'
-    foreground: '#D0D0D0'
+    #  foreground: '#D0D0D0'
 
     # github dark
     #  background: '#23272E'
@@ -10,13 +10,13 @@ colors:
 
     # gruvbox dark
     #  background: '#282828'
-    #  foreground: '#ebdbb2'
+    foreground: '#ebdbb2'
 
 cursor:
   thickness: 0.20
   unfocused_hollow: true
-  #blinking: Always
-  #blink_interval: 750
+  #  blinking: Always
+  #  blink_interval: 750
 
 font:
   size: 14.0
@@ -26,9 +26,9 @@ font:
     x: 0
     y: 0
 
-## tmux already handles this?
-# selection:
-  # save_to_clipboard: true
+# tmux already handles this?
+#  selection:
+  #  save_to_clipboard: true
 
 shell:
   program: zsh

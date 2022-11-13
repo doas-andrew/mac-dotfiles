@@ -164,6 +164,3 @@ bindkey -a i up-line-or-history
 bindkey -a k down-line-or-history
 bindkey -a j vi-backward-char
 bindkey -a l vi-forward-char
-
-# To customize prompt, run `p10k configure` or edit ~/dotfiles/zsh/.p10k.zsh.
-[[ ! -f ~/dotfiles/zsh/.p10k.zsh ]] || source ~/dotfiles/zsh/.p10k.zsh

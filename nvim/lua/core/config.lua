@@ -9,7 +9,7 @@ return {
 
     -- Set theme; Not compatible with all color schemes
     -- @value: string: gruvbox, onenord
-    color_scheme = "github_dark",
+    color_scheme = "gruvbox",
 
     -- Enable mouse in Neovim
     -- @value: boolean

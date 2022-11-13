@@ -63,7 +63,7 @@ as.map("n", "<leader>tw", ":set wrap!<CR>")             -- Toggle word-wrap
 
 -- as.map("n", "<leader>e", ":NvimTreeToggle<CR>")
 
-as.map("n", "<leader>|", [[:execute "set colorcolumn=" . (&colorcolumn == "0" ? "81" : "")<CR>]]) -- Show vertical bar at column 80
+as.map("n", "<leader>|", [[:execute "set colorcolumn=" . (&colorcolumn == "0" ? "81" : "")<CR>]]) -- Toggle vertical bar at column 80
 as.map("n", "<leader>rg", ":Gitsigns refresh<CR>")
 as.map("n", "<leader>rq", ":cwindow<CR>")
 as.map("n", "<leader>rl", ":lwindow<CR>")

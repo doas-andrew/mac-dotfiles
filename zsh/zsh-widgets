@@ -6,6 +6,7 @@ function __my_clear_history {
     local HISTSIZE=0
     clear
     zle reset-prompt
+    tmux clear-history
 }
 
 zle -N __my_exit_shell
