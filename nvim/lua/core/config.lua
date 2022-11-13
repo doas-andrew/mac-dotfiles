@@ -1,6 +1,6 @@
 return {
     ----------------------------------------------------------------------
-    --- General Settings
+    --- Theming
     ----------------------------------------------------------------------
 
     -- Set theme; Not compatible with all color schemes
@@ -11,26 +11,29 @@ return {
     -- @value: string: gruvbox, onenord
     color_scheme = "gruvbox",
 
+    ----------------------------------------------------------------------
+    --- General
+    ----------------------------------------------------------------------
+
     -- Enable mouse in Neovim
     -- @value: boolean
     enable_mouse = true,
 
-    -- Insert spaces instead of tabs
-    -- @value: boolean
-    insert_spaces = true,
-
     -- Time in milliseconds to wait for a mapped sequence to complete.
-    -- @value: number
-    timeoutlen = 300,
+    -- @value: integer
+    timeoutlen = 400,
 
-    -- If in this many milliseconds nothing is typed the swap file will be
-    -- written to disk.
-    -- @value: number
+    -- Debounce swapfile writes for this many milliseconds
+    -- @value: integer
     updatetime = 1000,
 
     -- Useful to align text.
-    -- @value: number
-    colorcolumn = 0,
+    -- @value: integer
+    color_column = 81,
+
+    -- Show colorcolumn by default?
+    -- @value: boolean
+    show_color_column = false,
 
     -- Keep the cursor as a block in insert mode.
     -- @value: boolean
@@ -45,21 +48,12 @@ return {
     use_swapfile = true,
 
     -- Number of screen lines to use for the command-line.
-    -- @value: number
+    -- @value: integer > 0
     cmdheight = 1,
 
     -- Minimal number of screen lines to keep above and below the cursor.
     -- @value: number
     scrolloff = 5,
-
-    -- Number of pixel lines inserted between characters.
-    -- @value: number
-    linespace = 4,
-
-    -- Number of spaces to use for each step of (auto)indent and number
-    -- of spaces that a <Tab> counts for.
-    -- @value: number
-    indent_size = 4,
 
     -- Show the line number relative to the line with the cursor in front of
     -- each line.
@@ -87,12 +81,7 @@ return {
     -- @value: boolean
     list_chars = true,
 
-    -- Show guidelines for nested blocks.
-    -- @value: boolean
-    -- UNUSED
-    indent_guides = false,
-
-    -- Basic trim of trailing white space.
+    -- Basic trim of trailing whitespace.
     -- @value: boolean
     trim_trailing_space = true,
 
@@ -102,6 +91,7 @@ return {
 
     -- File explorer side.
     -- @value: string: left, right
+    -- UNUSED
     explorer_side = "left",
 
     -- Use these keys for easymotion hints
@@ -109,6 +99,26 @@ return {
     -- @default: etovxqpdygfblzhckisuran
     easymotion_keys = "etovxqpdygfblzhckisuran",
 
+    ----------------------------------------------------------------------
+    -- Indentation
+    ----------------------------------------------------------------------
+
+    -- Insert spaces instead of tabs
+    -- @value: boolean
+    insert_spaces = true,
+
+    -- Number of spaces to use for each level of indentation
+    -- @value: number
+    indent_size = 4,
+
+    -- Number of spaces to render for a <Tab>
+    -- @value: number
+    tab_size = 4,
+
+    -- Show guidelines for nested blocks.
+    -- @value: boolean
+    -- UNUSED
+    indent_guides = false,
 
     ----------------------------------------------------------------------
     -- LSP
@@ -128,7 +138,7 @@ return {
 
     -- Enable autocomplete
     -- @value: boolean
-    code_autocomplete = true,
+    code_auto_complete = false,
 
     -- Number of items shown in autocomplete suggestions
     -- @value: integer
@@ -138,22 +148,22 @@ return {
     -- @value: string: single, double
     lsp_window_borders = "single",
 
-
     ----------------------------------------------------------------------
     -- Startify
     ----------------------------------------------------------------------
-    -- Choose your startify footer.
-    -- @value: string
-    startify_footer = "",
 
-    -- Position of the startify header.
+    -- Choose your startify footer.
+    -- @value: string?
+    startify_footer = nil,
+
+    -- Position of the startify header and footer.
     -- @options: center, pad
-    startify_header_position = "center",
+    startify_banner_position = "center",
 
     -- Choose your startify header.
     -- @options: set it equal to "cowsay" to get a cow and a random quote.
     -- You can also set an ascii art as header.
-    startify_header_ascii = {
+    startify_header = {
         "ooooo      ooo oooooooooooo   .oooooo.   oooooo     oooo ooooo ooo        ooooo",
         "`888b.     `8' `888'     `8  d8P'  `Y8b   `888.     .8'  `888' `88.       .888'",
         " 8 `88b.    8   888         888      888   `888.   .8'    888   888b     d'888 ",

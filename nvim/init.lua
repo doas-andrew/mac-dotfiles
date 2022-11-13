@@ -1,4 +1,4 @@
-require('core.global')
+require('core.library')
 require('core.options')
-require('core.mappings')
+require('core.keys')
 require('plugins.init')

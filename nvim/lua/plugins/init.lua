@@ -37,7 +37,7 @@ local function pack_use()
         "phaazon/hop.nvim",
         config = function()
             require("hop").setup({
-                keys = vim.g.code_easymotion_keys,
+                keys = my.easymotion_keys,
             })
         end,
     }
@@ -134,15 +134,6 @@ local function pack_use()
 
     use "ellisonleao/gruvbox.nvim"
     use "rmehri01/onenord.nvim"
-    use {
-        "projekt0n/github-nvim-theme",
-        config = function()
-            require('github-theme').setup({
-                --  theme_style = "dimmed",
-                hide_inactive_statusline = true,
-            })
-        end
-    }
 
     use {
         "mhinz/vim-startify",
@@ -160,7 +151,6 @@ local function pack_use()
     }
 
     use {
-        --  disable = true,
         "nvim-lualine/lualine.nvim",
         requires = { "kyazdani42/nvim-web-devicons" },
         config = function()
@@ -185,7 +175,7 @@ local function pack_use()
 
     use {
         "lukas-reineke/indent-blankline.nvim",
-        -- disable = true,
+        disable = true,
         config = function()
             require("plugins.indent-guides").config()
         end,
@@ -229,8 +219,14 @@ local function pack_use()
     -----------------------------------------------------------------------------
 
     use "LnL7/vim-nix"
+    use "alaviss/nim.nvim"
     use "ray-x/lsp_signature.nvim"
     use "neovim/nvim-lspconfig"
+
+    use {
+        "neoclide/coc.nvim",
+        branch = "release",
+    }
 
     use {
         "williamboman/nvim-lsp-installer",

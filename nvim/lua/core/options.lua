@@ -2,8 +2,8 @@
 -- Timing
 ----------------------------------------------------------------------
 
-vim.opt.timeoutlen = vim.g.code_timeoutlen
-vim.opt.updatetime = vim.g.code_updatetime
+vim.opt.timeoutlen = my.timeoutlen
+vim.opt.updatetime = my.updatetime
 vim.opt.ttimeoutlen = 10
 
 
@@ -11,8 +11,9 @@ vim.opt.ttimeoutlen = 10
 -- Color scheme
 ----------------------------------------------------------------------
 
-vim.opt.background = vim.g.code_color_theme
-pcall(vim.cmd, "colorscheme " .. vim.g.code_color_scheme)
+vim.opt.background = my.color_theme
+pcall(vim.cmd, [[ colorscheme ]] .. my.color_scheme)
+
 
 ----------------------------------------------------------------------
 -- Window splitting and buffers
@@ -59,17 +60,21 @@ vim.opt.hidden = true
 ----------------------------------------------------------------------
 -- Display
 ----------------------------------------------------------------------
-vim.opt.colorcolumn = { vim.g.code_colorcolumn }
-vim.opt.cmdheight = vim.g.code_cmdheight
-vim.opt.scrolloff = vim.g.code_scrolloff
+if my.showColorColumn then
+    vim.opt.colorcolumn = { my.colorColumn }
+else
+    vim.opt.colorcolumn = { 0 }
+end
+vim.opt.cmdheight = my.cmdheight
+vim.opt.scrolloff = my.scrolloff
 vim.opt.conceallevel = 0
 vim.opt.signcolumn = "yes:1"
 vim.opt.showbreak = "↪ " -- Options include -> '…', '↳ ', '→','↪ '
 vim.opt.showtabline = 2
 vim.opt.termguicolors = true
 -- vim.opt.guifont = "JetBrainsMono Nerd Font:h14"
-vim.opt.relativenumber = vim.g.code_relative_number
-vim.opt.cursorline = vim.g.code_cursor_line
+vim.opt.relativenumber = my.relative_number
+vim.opt.cursorline = my.cursor_line
 vim.opt.title = true
 vim.opt.number = true
 vim.opt.numberwidth = 1
@@ -78,14 +83,10 @@ vim.opt.confirm = true
 vim.opt.fileencoding = "utf-8"
 vim.opt.showmode = false
 
--- Doesn't work
--- vim.opt.linespace = vim.g.code_linespace
-
-
 ----------------------------------------------------------------------
 -- List Chars
 ----------------------------------------------------------------------
-if vim.g.code_list_chars then
+if my.list_chars then
     vim.opt.list = true
     vim.opt.listchars = {
         trail = "•",
@@ -94,7 +95,7 @@ if vim.g.code_list_chars then
         extends = "❯",
         precedes = "❮",
         nbsp = "_",
-        space = " ",
+        -- space = " ",
     }
 end
 
@@ -102,14 +103,14 @@ end
 ----------------------------------------------------------------------
 -- Indentation
 ----------------------------------------------------------------------
-vim.opt.wrap = vim.g.code_word_wrap
-vim.opt.expandtab = vim.g.code_insert_spaces
+vim.opt.wrap = my.word_wrap
+vim.opt.expandtab = my.insert_spaces
 vim.opt.smarttab = true
 vim.opt.smartindent = true
 vim.opt.autoindent = true
-vim.opt.shiftwidth = vim.g.code_indent_size
-vim.opt.softtabstop = vim.g.code_indent_size
-vim.opt.tabstop = 8
+vim.opt.shiftwidth = my.indent_size
+vim.opt.softtabstop = my.tab_size
+vim.opt.tabstop = my.tab_size
 
 
 ----------------------------------------------------------------------
@@ -120,7 +121,7 @@ vim.opt.incsearch = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.inccommand = "nosplit"
-vim.opt.pumheight = vim.g.code_compe_items
+vim.opt.pumheight = my.compe_items
 vim.opt.completeopt = "menuone,noinsert,noselect"
 
 
@@ -135,7 +136,7 @@ vim.opt.completeopt = "menuone,noinsert,noselect"
 
 vim.opt.clipboard = "unnamedplus"
 
-if vim.g.code_enable_mouse then
+if my.enable_mouse then
     vim.opt.mouse = "a"
 end
 
@@ -178,8 +179,8 @@ end
 ----------------------------------------------------------------------
 vim.opt.backup = false
 vim.opt.writebackup = false
-vim.opt.undofile = vim.g.code_remember_undo_history
-vim.opt.swapfile = vim.g.code_use_swapfile
+vim.opt.undofile = my.remember_undo_history
+vim.opt.swapfile = my.use_swapfile
 
 ----------------------------------------------------------------------
 -- Wild and file globbing stuff in command mode

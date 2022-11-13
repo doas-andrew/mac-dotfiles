@@ -63,7 +63,7 @@ as.map("n", "<leader>tw", ":set wrap!<CR>")             -- Toggle word-wrap
 
 -- as.map("n", "<leader>e", ":NvimTreeToggle<CR>")
 
-as.map("n", "<leader>|", [[:execute "set colorcolumn=" . (&colorcolumn == "0" ? "81" : "")<CR>]]) -- Toggle vertical bar at column 80
+as.map("n", "<leader>|", [[:execute "set colorcolumn=" . (&colorcolumn == "0" ? "]].. my.color_column ..[[" : "0")<CR>]]) -- Show vertical bar at column 80
 as.map("n", "<leader>rg", ":Gitsigns refresh<CR>")
 as.map("n", "<leader>rq", ":cwindow<CR>")
 as.map("n", "<leader>rl", ":lwindow<CR>")
@@ -143,8 +143,8 @@ as.map("n", "<leader>bcr", ":BufferCloseBuffersRight<CR>")
 
 as.map("n", "<M-w>", ":exit<CR>")
 as.map("n", "<C-w>", ":BufferClose<CR>")
--- as.map("n", "ZZ", ":w<CR>:BufferClose<CR>")
--- as.map("n", "ZQ", ":BufferClose<CR>")
+as.map("n", "ZZ", ":w<CR>:BufferClose<CR>")
+as.map("n", "ZQ", ":BufferClose<CR>")
 
 -- Pinned buffers are grouped together before other buffers;
 -- They are not protected from being closed.

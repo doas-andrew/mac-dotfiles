@@ -18,6 +18,8 @@ M.config = function()
     }
     vim.g.startify_bookmarks = {
         { al  = "~/.config/alacritty/alacritty.yml"       },
+        { awc = "~/.config/awesome/lua/config.lua"        },
+        { awk = "~/.config/awesome/lua/keys.lua"          },
         { esp = "~/.config/espanso/default.yml"           },
         { hx  = "~/dotfiles/helix/config.toml"            },
         { nix = "~/dotfiles/nixos/configuration.nix"      },
@@ -26,9 +28,9 @@ M.config = function()
         { st  = "~/.config/nvim/lua/plugins/startify.lua" },
         { tm  = "~/.config/tmux/tmux.conf"                },
         { vc  = "~/.config/nvim/lua/core/config.lua"      },
-        { vm  = "~/.config/nvim/lua/core/mappings.lua"    },
+        { vk  = "~/.config/nvim/lua/core/keys.lua"        },
+        { vo  = "~/.config/nvim/lua/core/options.lua"     },
         { vp  = "~/.config/nvim/lua/plugins/init.lua"     },
-        { xm  = "~/dotfiles/xmonad/xmonad.hs"             },
         { z   = "~/dotfiles/zsh/zshrc"                    },
     }
     vim.g.startify_commands = {
@@ -50,17 +52,18 @@ M.config = function()
     vim.g.startify_session_persistence    =  1  -- Automatically update sessions
     vim.g.startify_session_sort           =  1  -- Sort sessions by modification time
 
-    -- Header and footer
-    if vim.g.code_startify_footer ~= nil then
-        vim.g.startify_custom_footer = "startify#center([g:code_startify_footer])"
+    local fn_str = "startify#" .. (my.startify_banner_position or "pad")
+
+    if my.startify_footer ~= nil then
+        vim.g.my_startify_footer = my.startify_footer
+        vim.g.startify_custom_footer = fn_str .. "(g:my_startify_footer)"
     end
-    if vim.g.code_startify_header_ascii ~= nil then
-        local posi = vim.g.startify_header_position or "center"
-        if vim.g.startify_header_ascii == "cowsay" then
-            vim.g.startify_custom_header = "startify#" .. posi .. "(startify#fortune#cowsay())"
-        else
-            vim.g.startify_custom_header = "startify#" .. posi .. "(g:code_startify_header_ascii)"
-        end
+
+    if my.startify_header == 'cowsay' then
+        vim.g.startify_custom_header = fn_str .. "(startify#fortune#cowsay())"
+    elseif my.startify_header ~= nil then
+        vim.g.my_startify_header = my.startify_header
+        vim.g.startify_custom_header = fn_str .. "(g:my_startify_header)"
     end
 end
 

@@ -5,20 +5,24 @@ _G.as = {
     _store = _AsGlobalCallbacks or {},
 }
 
-
 -- Create global variables from config file
-local ok, config = pcall(require, "core.config")
-if ok then
-    for opt, val in pairs(config) do
-        vim.g["code_" .. opt] = val
-    end
-end
+_G.my = require("core.config")
 
 -- mappings
 function as.map(mode, key, action, opts)
     local isRecursive = vim.startswith(action, "<Plug>")
     opts = vim.tbl_extend("keep", opts or {}, { noremap = not isRecursive, silent = true, expr = false })
     vim.api.nvim_set_keymap(mode, key, action, opts)
+end
+
+
+function arr_join(arr, join)
+    join = join or string.char(10)
+    tmp = ""
+    for idx, ele in pairs(arr) do
+        tmp = tmp .. (idx ~= 1 and join .. ele or ele)
+    end
+    return tmp
 end
 
 -- autocommands
@@ -61,13 +65,13 @@ end
     -- return true
 -- end
 
-function as._has_value(table, value)
-        for _, v in pairs(table) do
-            if value == v then
-                return v
-            end
-        end
-end
+-- function as._has_value(table, value)
+    -- for _, v in pairs(table) do
+        -- if value == v then
+            -- return v
+        -- end
+    -- end
+-- end
 
 -- function as._compe(source, component)
     -- local blacklist = vim.g.code_compe_sources_blacklist

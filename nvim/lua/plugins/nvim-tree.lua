@@ -51,7 +51,7 @@ M.config = function()
             -- width of the window, can be either a number (columns) or a string in `%`
             width = 40,
             -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
-            side = vim.g.code_explorer_side,
+            side = my.explorer_side,
             -- if true the tree will resize itself after opening a file
             auto_resize = false,
             mappings = {
