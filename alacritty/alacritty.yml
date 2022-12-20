@@ -1,7 +1,7 @@
 colors:
   primary:
     # nvim github dark
-    background: '#262626'
+    #  background: '#262626'
     #  foreground: '#D0D0D0'
 
     # github dark
@@ -9,7 +9,7 @@ colors:
     #  foreground: '#ADBAC7'
 
     # gruvbox dark
-    #  background: '#282828'
+    background: '#282828'
     foreground: '#ebdbb2'
 
 cursor:
