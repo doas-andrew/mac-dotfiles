@@ -133,7 +133,11 @@ local function pack_use()
     ----------------------------------------------------------------------
 
     use "ellisonleao/gruvbox.nvim"
-    use "rmehri01/onenord.nvim"
+
+    use {
+        disable = true,
+        "rmehri01/onenord.nvim",
+    }
 
     use {
         "mhinz/vim-startify",
@@ -224,6 +228,7 @@ local function pack_use()
     use "neovim/nvim-lspconfig"
 
     use {
+        disable = true,
         "neoclide/coc.nvim",
         branch = "release",
     }

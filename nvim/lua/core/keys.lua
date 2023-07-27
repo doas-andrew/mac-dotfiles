@@ -90,6 +90,8 @@ as.map("", "h", "i")
 as.map("", "k", "gj") -- Traverse wrapped rows as separate rows
 as.map("", "i", "gk") -- Traverse wrapped rows as separate rows
 
+as.map("n", "H", "^i")
+
 -- Traverse word-wrapped lines as separate lines
 -- as.map("", "k", 'v:count == 0 ? "gj" : "j"', { expr = true })
 -- as.map("", "i", 'v:count == 0 ? "gk" : "k"', { expr = true })

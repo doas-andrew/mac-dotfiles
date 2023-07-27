@@ -20,6 +20,7 @@ alias gbr='git branch'
 alias gca='git commit --amend'
 alias gcam='git commit -am'
 alias gcem='git commit --allow-empty -m'
+alias gch="git reflog show --pretty=format:'%gs' | rg 'checkout:' | rg -o '[^ ]+$' | awk '!seen[\$1]++' | fzf --bind='alt-I:up,alt-K:down' | xargs git checkout"
 alias gcl='git clone'
 alias gco='git checkout'
 alias gcom='git commit'
@@ -36,19 +37,28 @@ alias gsh='git stash'
 alias gst='git status'
 alias gsup='git push --set-upstream origin $(git branch --show-current)'
 alias gtl='git log --graph --stat'
+alias gtll='git log --pretty=short --graph --boundary --abbrev-commit --compact-summary origin/main...HEAD'
 alias gtlo='git log --oneline'
+
+alias vanta='sudo /System/Volumes/Data/usr/local/vanta/vanta-cli'
 
 ## Other
 alias be='bundle exec'
 alias bs='brew services'
+alias bssa='brew services stop --all'
 alias l='exa -alh'
 alias ls='exa -a'
 alias rgf='rg --files | rg'
 alias rials='rails'
-alias rseed='rails db:seed:replant RAILS_ENV=test'
-alias rw='railway'
+alias rseed='rails db:seed:replant'
+alias rseedt='rails db:seed:replant RAILS_ENV=test'
 alias vim='nvim'
 
+alias rnd='render'
+alias rw='railway'
+
+alias work='cd ~/projects/main/'
+alias sonos='node ~/sonos/sonos.js'
 
 
 # ----------------------------------------------------------------------
@@ -135,7 +145,7 @@ bindkey '^[L'   forward-word
 bindkey '^K'   __my_clear_history
 #  bindkey '^K'   clear-screen
 bindkey '^W'   __my_exit_shell
-bindkey '^\b'  backward-kill-line
+#  bindkey '^\b'  backward-kill-line
 
 bindkey '^[^J' beginning-of-line
 bindkey '^[^L' end-of-line
@@ -157,3 +167,15 @@ bindkey -a i up-line-or-history
 bindkey -a k down-line-or-history
 bindkey -a j vi-backward-char
 bindkey -a l vi-forward-char
+
+
+#-------------------------------------------------------------------------------
+## Completion
+
+autoload -Uz compinit
+zstyle ':completion:*' menu select
+fpath+=~/.zfunc
+
+source "$MY_ZSH_DIR/zsh-render-cli-completion"
+
+#  test -d "$HOME/.tea" && source <("$HOME/.tea/tea.xyz/v*/bin/tea" --magic=zsh --silent)

@@ -73,7 +73,7 @@ local opts = {
 }
 
 local settings = {
-    sumneko_lua = {
+    lua_ls = {
         Lua = {
             diagnostics = {
                 globals = {

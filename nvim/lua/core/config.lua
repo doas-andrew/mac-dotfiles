@@ -126,7 +126,7 @@ return {
 
     -- Enable Language Server Protocol
     -- @value: boolean
-    lsp_enabled = true,
+    lsp_enabled = false,
 
     -- Milliseconds to wait before LSP updates
     -- @value: integer
