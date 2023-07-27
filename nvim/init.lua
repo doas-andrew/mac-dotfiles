@@ -1,3 +1,4 @@
+vim.loader.enable()
 require('core.library')
 require('core.options')
 require('core.keys')

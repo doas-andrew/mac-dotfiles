@@ -2,8 +2,8 @@
 # Environment variables
 
 #  export COLORTERM="24bit"
+#  export WORDCHARS="*?_-[]~=&;!#$%^(){}<>"
 export MY_ZSH_DIR="$HOME/dotfiles/zsh"
-export WORDCHARS="*?_-[]~=&;!#$%^(){}<>"
 
 
 # ----------------------------------------------------------------------
