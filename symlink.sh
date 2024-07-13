@@ -1,63 +1,26 @@
+dotfiles="$HOME/dotfiles"
+
 # Directories I don't want to make later
 mkdir -p ~/.config
-mkdir -p ~/.ssh && cp -n ~/dotfiles/ssh-config-example ~/.ssh/config
+mkdir -p ~/.ssh && cp -n $dotfiles/ssh/ssh-config-example ~/.ssh/config
 mkdir -p ~/.local/bin
 
-if which alacritty; then ln -sfn ~/dotfiles/alacritty ~/.config/alacritty; fi
-if which cantata;   then ln -sfn ~/dotfiles/cantata   ~/.config/cantata;   fi
-if which irb;       then ln -sfn ~/dotfiles/irb/irbrc ~/.irbrc;            fi
-if which mpv;       then ln -sfn ~/dotfiles/mpv       ~/.config/mpv;       fi
-if which nvim;      then ln -sfn ~/dotfiles/nvim      ~/.config/nvim;      fi
-if which nyxt;      then ln -sfn ~/dotfiles/nyxt      ~/.config/nyxt;      fi
-if which redshift;  then ln -sfn ~/dotfiles/redshift  ~/.config/redshift;  fi
-if which rofi;      then ln -sfn ~/dotfiles/rofi      ~/.config/rofi;      fi
-if which tmux;      then ln -sfn ~/dotfiles/tmux      ~/.config/tmux;      fi
+if type alacritty;  then ln -sfn $dotfiles/alacritty  ~/.config/alacritty;  fi
+if type less;       then ln -sfn $dotfiles/less/less  ~/.less;              fi
+if type mpv;        then ln -sfn $dotfiles/mpv        ~/.config/mpv;        fi
+if type nvim;       then ln -sfn $dotfiles/nvim       ~/.config/nvim;       fi
+if type tmux;       then ln -sfn $dotfiles/tmux       ~/.config/tmux;       fi
 
-if which zsh; then
-    ln -sfn ~/dotfiles/zsh/zshrc  ~/.zshrc
-    ln -sfn ~/dotfiles/zsh/zshenv ~/.zshenv
+if type zsh; then
+    ln -sfn $dotfiles/zsh/zshrc  ~/.zshrc
+    ln -sfn $dotfiles/zsh/zshenv ~/.zshenv
 
     if [ ! -d "$HOME/dotfiles/zsh/powerlevel10k" ]; then
-        git clone https://github.com/romkatv/powerlevel10k ~/dotfiles/zsh/powerlevel10k
+        git clone https://github.com/romkatv/powerlevel10k $dotfiles/zsh/powerlevel10k
     fi
 fi
 
-if which less; then
-    ln -sfn ~/dotfiles/less/lesskey ~/.lesskey
-    # lesskey ~/.config/less/lesskey
-fi
-
-if which emacs; then
+if type emacs; then
     mkdir -p ~/.config/emacs
-    ln -sfn ~/dotfiles/emacs/init.el ~/.config/emacs/init.el
+    ln -sfn $dotfiles/emacs/init.el ~/.config/emacs/init.el
 fi
-
-if which ranger; then
-    mkdir -p ~/.config/ranger
-    ln -sfn ~/dotfiles/ranger/rc.conf ~/.config/ranger/rc.conf
-fi
-
-# ln -sfn ~/dotfiles/.icons   ~/.icons
-# ln -sfn ~/dotfiles/.themes  ~/.themes
-
-if [[ $XDG_CURRENT_DESKTOP = 'AWESOME' ]]; then
-    ln -sfn ~/dotfiles/awesome ~/.config/awesome
-fi
-
-if [[ $XDG_CURRENT_DESKTOP = 'GNOME' ]]; then
-    # BACK UP WITH:
-    # dconf dump / > ~/dotfiles/gnome/gnomeX_settings.dconf
-    dconf load / < ~/dotfiles/gnome/gnome4_settings.dconf
-
-    if which nemo; then
-        mkdir -p ~/.local/share/nemo
-        ln -sfn ~/dotfiles/gnome/nemo/actions ~/.local/share/nemo/actions
-    fi
-fi
-
-# if which subl; then
-    # mkdir -p ~/.config/sublime-text-3/Packages/User
-    # ln -sfn ~/dotfiles/sublime/'Package Control.sublime-settings' ~/.config/sublime-text-3/Packages/User/'Package Control.sublime-settings'
-    # ln -sfn ~/dotfiles/sublime/'Preferences.sublime-settings'     ~/.config/sublime-text-3/Packages/User/'Preferences.sublime-settings'
-    # ln -sfn ~/dotfiles/sublime/'Default (Linux).sublime-keymap'   ~/.config/sublime-text-3/Packages/User/'Default (Linux).sublime-keymap'
-# fi
