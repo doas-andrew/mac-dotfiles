@@ -19,8 +19,10 @@ o888bood8P'   `Y8bod8P'   "888" o888o   o888o o888o `Y8bod8P' 8""888P'
 
 ```shell
 brew install bat                       # Rusted cat
+brew install bat-extras                # Integrates bat with various command-line tools
 brew install fd                        # Rusted find
 brew install ffmpeg                    # Play, record, convert, and stream audio/video
+brew install fzf                       # Command-line fuzzy finder written in Go
 brew install git                       # Distributed version control system
 brew install mise                      # Language runtime manager (rusted asdf)
 brew install neovim                    # Configurable in-terminal file editor

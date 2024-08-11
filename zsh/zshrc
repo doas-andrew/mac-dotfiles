@@ -19,48 +19,16 @@ alias fdir='fd -t=d'
 alias l='eza -alh'
 alias ls='eza -a'
 alias lf='lfub'
-# alias man='batman'
+alias man='batman'
 alias pip='pipenv'
 alias rgf='rg --files | rg'
 alias rials='rails'
-#  alias sudo='doas'
 
 alias ed='nvim'
 alias ex='nvim'
 alias vi='nvim'
 alias vim='nvim'
 alias sudovim='sudo -E -s nvim'
-
-
-# ------------------------------------------------------------------------------
-## Functions
-
-function clamscan_default {
-    mkdir -p $HOME/clam_reports
-    sudo freshclam
-    local dir="${1:=/home}"
-    local file="$HOME/clam_reports/clamscan_$(date +%Y%m%d%H%M%S).txt"
-    touch $file
-    echo "Scanning $dir\n" >> $file
-    sudo clamscan $dir \
-        --recursive=yes \
-        --log=$file \
-        --infected \
-        --exclude-dir='.npm' \
-        --exclude-dir='.pnpm' \
-        --exclude-dir='.local/share/Steam'
-    bat $file
-}
-
-function clear_clipboard_history {
-    type clipcatctl >/dev/null && clipcatctl clear
-    type greenclip >/dev/null && pkill greenclip && greenclip clear && greenclip daemon &
-}
-
-function xkeyboard_setup {
-    setxkbmap -option caps:swapescape
-    xset r rate 160 60
-}
 
 
 # ------------------------------------------------------------------------------
@@ -96,12 +64,11 @@ bindkey -a l vi-forward-char
 
 
 # ------------------------------------------------------------------------------
-## Macros, etc
+## Macros, Zstyles, etc
 
-autoload -Uz compinit
+autoload -Uz compinit && compinit
 zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
-# eval "$(direnv hook zsh)"
-# typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-
+# Runtime version control
 eval "$(mise activate zsh)"
