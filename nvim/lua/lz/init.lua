@@ -1,4 +1,5 @@
-return {
+return { -- https://lazy.folke.io
+
     -- Common deps
     { "nvim-lua/plenary.nvim" },
     { "nvim-tree/nvim-web-devicons" },
@@ -35,6 +36,7 @@ return {
     {
         -- Tmux integration
         "christoomey/vim-tmux-navigator",
+        enabled = fn.is_tmux(),
         event = "BufEnter",
         init = function()
             vim.g.tmux_navigator_no_mappings = 1
@@ -115,18 +117,7 @@ return {
     },
     {
         -- Adds background color to hex codes
-        "NvChad/nvim-colorizer.lua",
-    },
-    {
-        -- View project tree
-        "ms-jpq/chadtree",
-        enabled = false,
-        config = function()
-            vim.api.nvim_set_var("chadtree_settings", {
-                ["view.width"] = 25,
-                ["theme.text_colour_set"] = "solarized_dark",
-            })
-        end,
+        "norcalli/nvim-colorizer.lua",
     },
     {
         -- Dim text outside working area
@@ -147,12 +138,6 @@ return {
         enabled = false,
         config = true,
     },
-    {
-        "MaximilianLloyd/ascii.nvim",
-        dependencies = "MunifTanjim/nui.nvim",
-        enabled = false,
-    },
-
 
 
     ----------------------------------------------------------------------------
@@ -247,15 +232,10 @@ return {
     ----------------------------------------------------------------------------
     -- Themes
     ----------------------------------------------------------------------------
-    {
-        "loctvl842/monokai-pro.nvim",
-        config = {
-            filter = "spectrum",
-            background_clear = {
-                "telescope",
-            },
-        },
-    },
+    { "rebelot/kanagawa.nvim" },
+    { "navarasu/onedark.nvim" },
+    { "EdenEast/nightfox.nvim" },
+    { "NTBBloodbath/doom-one.nvim" },
     {
         "sainnhe/gruvbox-material",
         init = function()
@@ -265,34 +245,12 @@ return {
         end
     },
     {
-        "sainnhe/sonokai",
-        enabled = false,
-        init = function()
-            -- default, atlantis, andromeda, shusia, maia, espresso
-            vim.g.sonokai_style = "default"
-            vim.g.sonokai_better_performance = 1
-        end,
-    },
-    {
-        "sainnhe/edge",
-        enabled = false,
-        init = function()
-            -- default, aura, neon
-            vim.g.edge_style = "default"
-            vim.g.edge_better_performance = 1
-        end,
-    },
-    {
-        "daschw/leaf.nvim",
-        enabled = false,
-    },
-    {
-        "rose-pine/neovim",
-        name = "rose-pine",
-        enabled = false,
+        "loctvl842/monokai-pro.nvim",
         config = {
-            -- main, moon
-            dark_variant = "main",
+            filter = "octagon",
+            background_clear = {
+                "telescope",
+            },
         },
     },
 }

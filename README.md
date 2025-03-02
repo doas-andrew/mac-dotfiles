@@ -28,17 +28,15 @@ brew install mise                      # Language runtime manager (rusted asdf)
 brew install neovim                    # Configurable in-terminal file editor
 brew install ngrok                     # Expose localhost ports for testing
 brew install ripgrep                   # Rusted grep
-brew install tmux                      # Terminal multiplexer
 
-brew install --cask alacritty          # GPU-accelerated terminal. Use tmux for tabs and splits
 brew install --cask alt-tab            # Replace Mac's default cmd-tab behavior
 brew install --cask breaktimer         # Timeboxing tool
 brew install --cask dbeaver-community  # Database management tool
 brew install --cask devtoys            # Helpful developer tools
 brew install --cask docker             # Ship and run any application as a lightweight container
-brew install --cask emacs              # A text editor that is also basically an operating system
 brew install --cask firefox            # The gecko browser
 brew install --cask flameshot          # Screenshots with quick markup tools
+brew install --cask ghostty            # Terminal emulator
 brew install --cask google-chrome      # The chrome browser. Has good frontend dev tools
 brew install --cask hammerspoon        # Mac's version of AHK
 brew install --cask krita              # FOSS photoshop
@@ -48,4 +46,5 @@ brew install --cask raycast            # App launcher, clipboard history, snippe
 brew install --cask rectangle          # Move and resize windows with your keyboard
 brew install --cask sublime-text       # Faster startup than VSC. Good notepad replacement
 brew install --cask visual-studio-code # Development environment
+brew install --cask wezterm            # Terminal emulator
 ```

@@ -8,11 +8,14 @@ _G.my = {
     color_theme = "dark",
 
     -- Set theme; Not compatible with all color schemes
-    -- @value: string: gruvbox-material, edge, sonokai, monokai-pro
+    -- @value: string
 
-    --  color_scheme = "monokai-pro",
-    color_scheme = "gruvbox-material",
-    --  color_scheme = "sonokai",
+    -- color_scheme = "gruvbox-material",
+    -- color_scheme = "monokai-pro",
+    color_scheme = "kanagawa",
+    -- color_scheme = "nightfox",
+    -- color_scheme = "onedark",
+    -- color_scheme = "doom-one",
 
     ----------------------------------------------------------------------------
     --- General
@@ -50,7 +53,7 @@ _G.my = {
     -- Number of screen lines to use for the command-line.
     -- Zero = hide when not in use
     -- @value: integer
-    cmd_height = 0,
+    cmd_height = 1,
 
     -- Minimal number of screen lines to keep above and below the cursor.
     -- @value: integer

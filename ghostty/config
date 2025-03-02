@@ -1,0 +1,33 @@
+# config-file = remap_command
+
+shell-integration = zsh
+cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
+keybind = cmd+u=new_split:up
+keybind = cmd+s=new_split:right
+
+keybind = cmd+i=goto_split:up
+keybind = cmd+k=goto_split:down
+keybind = cmd+j=goto_split:left
+keybind = cmd+l=goto_split:right
+
+keybind = cmd+shift+j=text:\x1bJ
+keybind = cmd+shift+l=text:\x1bL
+keybind = cmd+shift+i=text:\x1bI
+keybind = cmd+shift+k=text:\x1bK
+keybind = cmd+w=text:\x1bw
+
+keybind = shift+up=resize_split:up,100
+keybind = shift+down=resize_split:down,100
+keybind = shift+left=resize_split:left,100
+keybind = shift+right=resize_split:right,100
+
+keybind = ctrl+j=previous_tab
+keybind = ctrl+l=next_tab
+keybind = ctrl+t=new_tab
+keybind = ctrl+shift+j=move_tab:-1
+keybind = ctrl+shift+l=move_tab:+1
+
+# keybind = global:cmd+grave_accent=toggle_quick_terminal

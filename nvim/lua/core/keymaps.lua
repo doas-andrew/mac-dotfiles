@@ -10,41 +10,82 @@ local nmap = fn.make_map("n", opts)
 local vmap = fn.make_map("v", opts)
 
 --------------------------------------------------------------------------------
+-- Environment
+--------------------------------------------------------------------------------
+
+if vim.g.neovide then
+    -- Half-page up
+    nmap("<C-i>", "<C-u>")
+    vmap("<C-i>", "<C-u>")
+
+    -- Delete from line start to cursor
+    cmap("<C-BS>", "<C-u>")
+    imap("<C-BS>", "<C-u>")
+else
+    nmap("<C-b>i", "<C-u>")
+    vmap("<C-b>i", "<C-u>")
+
+    cmap("<C-h>", "<C-u>")
+    imap("<C-h>", "<C-u>")
+end
+
+if fn.is_wezterm() then
+    nmap("<M-i>", [[:lua fn.if_window_to_the('up',    'wincmd k', 'silent !wezterm cli activate-pane-direction up')<CR>]])
+    nmap("<M-k>", [[:lua fn.if_window_to_the('down',  'wincmd j', 'silent !wezterm cli activate-pane-direction down')<CR>]])
+    nmap("<M-j>", [[:lua fn.if_window_to_the('left',  'wincmd h', 'silent !wezterm cli activate-pane-direction left')<CR>]])
+    nmap("<M-l>", [[:lua fn.if_window_to_the('right', 'wincmd l', 'silent !wezterm cli activate-pane-direction right')<CR>]])
+
+    nmap("<C-j>", [[:lua fn.if_only_buffer('silent !wezterm cli activate-tab --tab-relative -1', 'BufferPrevious')<CR>]])
+    nmap("<C-l>", [[:lua fn.if_only_buffer('silent !wezterm cli activate-tab --tab-relative  1', 'BufferNext')<CR>]])
+
+    nmap("<M-J>", [[:BufferMovePrevious<CR>]])
+    nmap("<M-L>", [[:BufferMoveNext<CR>]])
+elseif fn.is_tmux() then
+    nmap("<M-i>", [[:lua fn.if_window_to_the('up',    'wincmd k', 'silent !tmux select-pane -U')<CR>]])
+    nmap("<M-k>", [[:lua fn.if_window_to_the('down',  'wincmd j', 'silent !tmux select-pane -D')<CR>]])
+    nmap("<M-j>", [[:lua fn.if_window_to_the('left',  'wincmd h', 'silent !tmux select-pane -L')<CR>]])
+    nmap("<M-l>", [[:lua fn.if_window_to_the('right', 'wincmd l', 'silent !tmux select-pane -R')<CR>]])
+
+    nmap("<C-j>", [[:lua fn.if_only_buffer('silent !tmux select-window -p', 'BufferPrevious')<CR>]])
+    nmap("<C-l>", [[:lua fn.if_only_buffer('silent !tmux select-window -n', 'BufferNext')<CR>]])
+
+    nmap("<M-J>", [[:lua fn.if_only_buffer('silent !tmux swap-window -dt -1', 'BufferMovePrevious')<CR>]])
+    nmap("<M-L>", [[:lua fn.if_only_buffer('silent !tmux swap-window -dt +1', 'BufferMoveNext')<CR>]])
+else
+    nmap("<M-i>", [[:wincmd k<CR>]])
+    nmap("<M-k>", [[:wincmd j<CR>]])
+    nmap("<M-j>", [[:wincmd h<CR>]])
+    nmap("<M-l>", [[:wincmd l<CR>]])
+
+    nmap("<C-j>", [[:BufferPrevious<CR>]])
+    nmap("<C-l>", [[:BufferNext<CR>]])
+
+    nmap("<M-J>", [[:BufferMovePrevious<CR>]])
+    nmap("<M-L>", [[:BufferMoveNext<CR>]])
+end
+
+
+--------------------------------------------------------------------------------
 -- General
 --------------------------------------------------------------------------------
 
-nmap(";",     ":", { silent = false })
-nmap("<M-x>", ":", { silent = false })
-
+nmap(";", ":", { silent = false })
 nmap("s", ":HopWord<CR>")            -- EasyMotion
 imap("jk", "<ESC>")                  -- Exit insert mode
-
-nmap("<M-s>",      ":w<CR>")         -- Save current buffer
-nmap("<leader>fs", ":w<CR>")         -- Save current buffer
-nmap("<leader>fS", ":wa<CR>")        -- Save all buffers
 
 -- Delete preceeding word
 cmap("<M-BS>", "<C-w>")
 imap("<M-BS>", "<C-w>")
 
--- Delete from line start to cursor
-if vim.g.neovide then
-    cmap("<C-BS>", "<C-u>")
-    imap("<C-BS>", "<C-u>")
-else
-    cmap("<C-h>", "<C-u>")
-    imap("<C-h>", "<C-u>")
-end
-
 cmap("<M-J>", "<S-Left>")
 cmap("<M-L>", "<S-Right>")
 
 nmap("Y", "y$")                      -- Yank to end of line
-vmap("Y", "<ESC>y$gv")               -- Yank without exiting visual mode
+vmap("Y", "ygv")                     -- Yank without exiting visual mode
 nmap("<leader>y", "mY0v$<left>y`Y")  -- Yank line without newline char
 
 -- Open terminal
-nmap("<leader>ot", "<cmd>terminal<CR>i")
+nmap("<leader>ot", ":terminal<CR>i")
 
 -- Delete without overwriting clipboard
 nmap("x", [["_x]])
@@ -65,7 +106,10 @@ vmap("K", ":move '>+1<CR>gv=gv")
 nmap("f.", "/<C-r><C-w><CR>")
 
 -- Replace all instances of [word] in current file
-nmap("c.", [[:%s/<C-r><C-w>//g<Left><Left>]])
+nmap("ca", [[:%s/<C-r><C-w>//g<Left><Left>]])
+
+-- Change inner word
+nmap("c.", "ciw")
 
 -- Append current clipboard to the end of the current line
 nmap("<leader>p", "mY$a <ESC>p`Y")
@@ -75,11 +119,9 @@ vmap("y", "y`]")
 vmap("p", "p`]")
 nmap("p", "p`]")
 
-if vim.g.neovide then
-    nmap("<C-v>", "p`]")
-    imap("<C-v>", "<ESC>pa")
-    cmap("<C-v>", "<C-r>\"")
-end
+-- Paste from system clipboard
+imap("<C-v>", "<C-r>+")
+cmap("<C-v>", "<C-r>+")
 
 -- Open line above without insert
 nmap("<leader>O", "mYO<ESC>`Y")
@@ -124,7 +166,7 @@ nmap("<leader>tf", "za")                         -- Toggle fold under cursor
 nmap("<leader>tF", "zA")                         -- Toggle all folds under cursor
 
 -- File explorer
-nmap("<M-e>", ":NeoTreeShowToggle<CR>")
+nmap("<M-e>", ":Neotree toggle<CR>")
 
 -- Search highlighting
 --  nmap("<leader>th", ":set hlsearch!<CR>")
@@ -151,10 +193,11 @@ nmap("<leader>|", [[:execute "set colorcolumn=" . (&colorcolumn == "0" ? "]].. m
 
 cmap("<C-j>", "<home>")
 cmap("<C-l>", "<end>")
-cmap("<M-j>", "<Left>")
-cmap("<M-l>", "<Right>")
+
 cmap("<M-I>", "<Up>")
 cmap("<M-K>", "<Down>")
+cmap("<M-j>", "<Left>")
+cmap("<M-l>", "<Right>")
 
 
 --------------------------------------------------------------------------------
@@ -168,36 +211,24 @@ nmap("q", "b")
 nmap("Q", "B")
 
 nmap("H", "^i")
+vmap("H", "^i")
 
 -- Traverse word-wrapped lines as separate lines
-map("i", [[v:count == 0 ? "gk" : "k"]], { expr = true })
-map("k", [[v:count == 0 ? "gj" : "j"]], { expr = true })
--- map("i", "gk")
--- map("k", "gj")
+map("i", "gk")
+map("k", "gj")
+-- map("i", [[v:count == 0 ? "gk" : "k"]], { expr = true })
+-- map("k", [[v:count == 0 ? "gj" : "j"]], { expr = true })
 
-imap("<M-k>", "<Down>")
 imap("<M-i>", "<Up>")
+imap("<M-k>", "<Down>")
 imap("<M-j>", "<Left>")
 imap("<M-l>", "<Right>")
 
-if vim.g.neovide then
-    nmap("<C-i>", "<C-u>") -- Half-page up
-    vmap("<C-i>", "<C-u>") -- Half-page up
-else
-    nmap("<C-b>i", "<C-u>")
-    vmap("<C-b>i", "<C-u>")
-end
+nmap("<", "<C-o>") -- Jump back
+nmap(">", "<C-i>") -- Jump forward
 
 nmap("<C-k>",  "<C-d>") -- Half-page down
 vmap("<C-k>",  "<C-d>") -- Half-page down
-
-nmap("<M-i>", ":TmuxNavigateUp<CR>")
-nmap("<M-k>", ":TmuxNavigateDown<CR>")
-nmap("<M-j>", ":TmuxNavigateLeft<CR>")
-nmap("<M-l>", ":TmuxNavigateRight<CR>")
-
-nmap("<", "<C-o>") -- Jump back
-nmap(">", "<C-i>") -- Jump forward
 
 
 --------------------------------------------------------------------------------
@@ -207,16 +238,13 @@ nmap(">", "<C-i>") -- Jump forward
 vim.g.VM_maps = {
     ["Find Under"] = "<C-d>"
 }
--- let g:VM_maps['Find Under']
--- ["Find Under"] = "<C-d>"
 
 
 --------------------------------------------------------------------------------
 -- LSP
 --------------------------------------------------------------------------------
 
-nmap("tt", "<cmd>TroubleToggle<CR>")
---  nmap("td", "<cmd>TroubleToggle<CR>")
+nmap("tt", ":TroubleToggle<CR>")
 
 nmap("gr", ":lua vim.lsp.buf.references()<CR>")
 nmap("gd", ":lua vim.lsp.buf.definition()<CR>")
@@ -232,38 +260,13 @@ nmap("<leader>he", ":lua vim.lsp.buf.signature_help()<CR>")
 
 
 --------------------------------------------------------------------------------
--- bufferline.nvim
---------------------------------------------------------------------------------
-
-if false then
-    nmap("<C-j>", ":BufferLineCyclePrev<CR>")
-    nmap("<C-l>", ":BufferLineCycleNext<CR>")
-
-    nmap("<M-J>", ":BufferLineMovePrev<CR>")
-    nmap("<M-L>", ":BufferLineMoveNext<CR>")
-
-    nmap("<leader>bs", ":BufferLinePick<CR>")
-    nmap("<leader>bp", ":BufferLineTogglePin<CR>")
-end
-
-
---------------------------------------------------------------------------------
 -- barbar.nvim
 --------------------------------------------------------------------------------
 
-if true then
-    nmap("<C-j>", ":BufferPrevious<CR>")
-    nmap("<C-l>", ":BufferNext<CR>")
-
-    nmap("<M-J>", ":BufferMovePrevious<CR>")
-    nmap("<M-L>", ":BufferMoveNext<CR>")
-
-    nmap("<leader>bca", ":BufferCloseAllButCurrent<CR>")
-    nmap("<leader>bcr", ":BufferCloseBuffersRight<CR>")
-
-    nmap("<leader>bs",  ":BufferPick<CR>")
-    nmap("<leader>bp", ":BufferPin<CR>")
-end
+nmap("<leader>bca", ":BufferCloseAllButCurrent<CR>")
+nmap("<leader>bcr", ":BufferCloseBuffersRight<CR>")
+nmap("<leader>bs",  ":BufferPick<CR>")
+nmap("<leader>bp",  ":BufferPin<CR>")
 
 
 --------------------------------------------------------------------------------
@@ -273,8 +276,8 @@ end
 nmap("<M-w>", ":exit<CR>")
 nmap("<C-w>", ":bdel<CR>")
 
-nmap("ZQ", ":lua closeBufferOrWindow()<CR>")
-nmap("ZZ", ":w<CR>:lua closeBufferOrWindow()<CR>")
+-- nmap("ZQ", ":lua fn.closeBufferOrWindow()<CR>")
+-- nmap("ZZ", ":w<CR>:lua fn.closeBufferOrWindow()<CR>")
 
 -- Previous buffer
 nmap("<BS>", "<C-^>")
@@ -286,7 +289,7 @@ nmap("<leader>bf", [[:e <C-R>=expand("%:p:h") . "/" <CR>]],   { silent = false }
 nmap("<leader>bv", [[:vsp <C-R>=expand("%:p:h") . "/" <CR>]], { silent = false })
 
 -- nmap("<leader>bq", ":lua require'core.util'.delete_buffer()<CR>") -- quit buffer
--- nmap("<leader>bQ", [[<cmd>w <bar> %bd <bar> e#<CR>]])             -- quit all buffers but current
+-- nmap("<leader>bQ", [[:w <bar> %bd <bar> e#<CR>]])             -- quit all buffers but current
 -- nmap("<leader>b%", ":luafile %<CR>", { silent = false })          -- source buffer
 -- nmap("<leader>bn", [[:enew<CR>]], { silent = false })             -- new buffer
 
@@ -315,17 +318,21 @@ vmap("<S-Tab>", "<gv") -- Dedent without exiting visual mode
 
 
 --------------------------------------------------------------------------------
--- windows
+-- Windows
 --------------------------------------------------------------------------------
+
+nmap("<M-s>", ":vsplit<CR>:wincmd l<CR>")
+nmap("<M-u>", ":split<CR>:wincmd j<CR>")
+
 nmap("<S-Up>",    ":resize -10<CR>")
 nmap("<S-Down>",  ":resize +10<CR>")
 nmap("<S-Left>",  ":vertical resize +10<CR>")
 nmap("<S-Right>", ":vertical resize -10<CR>")
 
-nmap("<M-W>", ":vertical resize -10<CR>")
-nmap("<M-A>", ":resize +10<CR>")
-nmap("<M-S>", ":vertical resize +10<CR>")
-nmap("<M-D>", ":resize -10<CR>")
+nmap("<M-W>", ":resize -10<CR>")
+nmap("<M-A>", ":vertical resize -10<CR>")
+nmap("<M-S>", ":resize +10<CR>")
+nmap("<M-D>", ":vertical resize +10<CR>")
 
 --  nmap("<S-Up>", ":lua require'core.util'.resize(false, -2)<CR>")
 --  nmap("<S-Down>", ":lua require'core.util'.resize(false, 2)<CR>")
@@ -448,11 +455,3 @@ nmap("<leader>sd",  [[:lua MiniSessions.delete(vim.fn.input("Session name: "))<C
 -- nmap("<leader>hm",  ":Telescope man_pages<CR>")
 -- nmap("<leader>ht",  ":Telescope colorscheme<CR>")
 -- nmap("<leader>ho",  ":Telescope vim_options<CR>")
--- nmap("<leader>hpi", ":PackerInstall<CR>")
--- nmap("<leader>hpu", ":PackerUpdate<CR>")
-nmap("<leader>ps", ":PackerStatus<CR>", { silent = false })
-nmap("<leader>pc", ":PackerCompile<CR>", { silent = false })
--- nmap("<leader>hpS", ":PackerSync<CR>")
--- nmap("<leader>hpc", ":PackerCompile<CR>")
--- nmap("<leader>hpC", ":PackerClean<CR>")
--- nmap("<leader>hph", ":help packer.txt<CR>")

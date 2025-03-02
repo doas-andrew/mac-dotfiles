@@ -33,12 +33,21 @@ function fn.dump(...)
     })
 end
 
-function closeBufferOrWindow()
+function fn.closeBufferOrWindow()
     -- Closes current buffer, and then closes window if
     -- there are no more buffers. Useful for git commit.
     vim.cmd("bdel")
     if vim.fn.bufname("%") == "" then
         vim.cmd("q")
+    end
+end
+
+function fn.vim_cmd_or_fn(arg)
+    local argType = type(arg)
+    if argType == "string" then
+        vim.cmd(arg)
+    elseif argType == "function" then
+        arg()
     end
 end
 
@@ -118,6 +127,96 @@ end
 
     --  return default
 --  end
+
+
+
+
+
+----------------------------------------------------------------------------------------------------
+-- Window-related
+----------------------------------------------------------------------------------------------------
+
+function fn.wezterm_activate_pane(dir)
+    vim.cmd("silent !wezterm cli activate-pane-direction " .. dir)
+end
+
+function fn.is_tmux()
+    local term = os.getenv("TERM") or ""
+    return term:match("tmux") ~= nil
+end
+
+function fn.is_wezterm()
+    return os.getenv("MY_WEZTERM_INDICATOR") == "1"
+end
+
+function fn.if_window_to_the(dir, left, right)
+    if fn.has_window_to_the(dir) then
+        -- fn.vim_cmd_or_fn(left)
+        if left then vim.cmd(left) end
+    else
+        -- fn.vim_cmd_or_fn(right)
+        if right then vim.cmd(right) end
+    end
+end
+
+function fn.if_only_buffer(left, right)
+    local buffers = vim.fn.getbufinfo { buflisted = 1 }
+    if #buffers <= 1 then
+        if left then vim.cmd(left) end
+    else
+        if right then vim.cmd(right) end
+    end
+end
+
+function fn.has_window_to_the(dir)
+    local func
+    local current_win = vim.api.nvim_get_current_win()
+    local current_pos = vim.api.nvim_win_get_position(current_win)
+
+    if dir == "left" then
+        func = function(win)
+            return vim.api.nvim_win_get_position(win)[2] < current_pos[2]
+        end
+
+    elseif dir == "right" then
+        func = function(win)
+            return vim.api.nvim_win_get_position(win)[2] > current_pos[2]
+        end
+
+    elseif dir == "up" then
+        func = function(win)
+            return vim.api.nvim_win_get_position(win)[1] < current_pos[1]
+        end
+
+    elseif dir == "down" then
+        func = function(win)
+            return vim.api.nvim_win_get_position(win)[1] > current_pos[1]
+        end
+    end
+
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+        if win ~= current_win then
+            local config = vim.api.nvim_win_get_config(win)
+            if config.focusable and func(win) then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
+function fn.print_windows()
+    local current_win = vim.api.nvim_get_current_win()
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local table = vim.api.nvim_win_get_position(win)
+        if win == current_win then
+            table.CURRENT = 'true'
+        end
+        fn.dump(table, vim.api.nvim_win_get_config(win))
+    end
+end
+
 
 ----------------------------------------------------------------------------------------------------
 -- Mappings

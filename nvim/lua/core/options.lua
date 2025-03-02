@@ -1,10 +1,12 @@
 --------------------------------------------------------------------------------
 -- Display
 
+vim.g.mapleader = " "
 vim.opt.termguicolors = true
 vim.opt.background = my.color_theme
---  vim.opt.cmdheight = my.cmd_height
+vim.opt.cmdheight = my.cmd_height
 vim.opt.scrolloff = my.scroll_off
+vim.opt.laststatus = 3
 
 if my.showColorColumn then
     vim.opt.colorcolumn = { my.colorColumn }
@@ -16,7 +18,7 @@ end
 --  vim.opt.conceallevel = 0
 
 -- Leader must be set before Lazy loads?
-vim.g.mapleader = " "
+-- vim.g.mapleader = " "
 
 vim.opt.signcolumn = "yes"
 --  vim.opt.signcolumn = "yes:1"
@@ -74,13 +76,14 @@ end
 
 vim.opt.list = true
 vim.opt.listchars = {
-    trail = "•",
+    --  eol = "↴",
     --  space = "•",
     --  tab = "» ",
-    --  eol = "↴",
     extends = "❯",
-    precedes = "❮",
     nbsp = "_",
+    precedes = "❮",
+    tab = "  ",
+    trail = "•",
 }
 
 
